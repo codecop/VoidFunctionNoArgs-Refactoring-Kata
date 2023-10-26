@@ -17,11 +17,12 @@ public class Sample {
 
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
+        NImpuls nImpuls = new NImpuls(Globals.NImpuls);
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
         } else {
-            if (notTotzone()) {
+            if (nImpuls.notTotzone()) {
                 NRegFkt &= ~(TOTZONE_ALT);
             } else {
                 NRegFkt |= TOTZONE_ALT;
@@ -64,17 +65,17 @@ public class Sample {
             int PraeZuWirk = 0;
 
             if ((RegDiff >= ZwspZuV) && (RegDiff <= ZwspAufO)) {
-                setTotzone();
+                nImpuls.setTotzone();
             } else {
-                reset();
+                nImpuls.reset();
                 PraeAufWirk = AnsprAufV;
                 PraeZuWirk = AnsprZuV;
             }
-            if (isGrenz1()) {
+            if (nImpuls.isGrenz1()) {
                 PraeAufWirk = PRAE_WIRK_1;
                 PraeZuWirk = -PRAE_WIRK_1;
             }
-            if (isGrenz2()) {
+            if (nImpuls.isGrenz2()) {
                 PraeAufWirk = PRAE_WIRK_2;
                 PraeZuWirk = -PRAE_WIRK_2;
             }
@@ -107,7 +108,7 @@ public class Sample {
             }
 
             if (PraeAufWirk == AnsprAufV || PraeZuWirk == AnsprZuV) {
-                if (isTotzone()) {
+                if (nImpuls.isTotzone()) {
                     if (StellIstRev < IstwMin) {
                         IstwMin = StellIstRev;
                     }
@@ -122,7 +123,7 @@ public class Sample {
             }
 
             zw = Zustand[0];
-            if (isTotzone()) {
+            if (nImpuls.isTotzone()) {
                 zw = STATE_WITHIN_DEADZONE;
             }
             if (stellFwd.isZu()) {
@@ -139,30 +140,42 @@ public class Sample {
         }
 
         Globals.StellFwd = stellFwd.value;
+        Globals.NImpuls = nImpuls.value;
     }
 
-    private static boolean isGrenz2() {
-        return (NImpuls & TY_GRENZ_2) != 0;
-    }
+    static class NImpuls {
 
-    private static boolean isGrenz1() {
-        return (NImpuls & TY_GRENZ_1) != 0;
-    }
+        int value;
 
-    private static boolean isTotzone() {
-        return (NImpuls & TOTZONE) != 0;
-    }
+        public NImpuls(int value) {
+            this.value = value;
+        }
 
-    private static void reset() {
-        NImpuls &= ~TOTZONE;
-    }
+        boolean isGrenz2() {
+            return (value & TY_GRENZ_2) != 0;
+        }
 
-    private static void setTotzone() {
-        NImpuls |= TOTZONE;
-    }
+        boolean isGrenz1() {
+            return (value & TY_GRENZ_1) != 0;
+        }
 
-    private static boolean notTotzone() {
-        return (NImpuls & TOTZONE) == 0;
+        boolean isTotzone() {
+            return (value & TOTZONE) != 0;
+        }
+
+        void reset() {
+            value &= ~TOTZONE;
+        }
+
+        void setTotzone() {
+            value |= TOTZONE;
+        }
+
+        boolean notTotzone() {
+            return (value & TOTZONE) == 0;
+        }
+
+
     }
 
 }

@@ -24,3 +24,4 @@ What did I do?
   * extract a policy and we are done
   * 5'
 
+* Do the same with other output NImpuls
