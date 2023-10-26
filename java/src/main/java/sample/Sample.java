@@ -9,7 +9,8 @@ public class Sample {
     private static int IstwMin;
     private static int IstwMax;
 
-    private static ZustandX Zustand = new ZustandX();
+    private static final SampleZustand zustand = new SampleZustand();
+
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
@@ -29,15 +30,15 @@ public class Sample {
             int ZwspZuV;
             ZwspAufO = AnsprAufO;
             ZwspZuV = AnsprZuO;
-            if (Zustand.zustandInDeadzone()) {
+            if (zustand.isDeadzone()) {
                 ZwspAufO = AnsprAufO + AnsprHyst;
                 ZwspZuV = AnsprZuO - AnsprHyst;
 
                 if (
-                        ((RegDiff < AnsprZuO) && Zustand.preZustandNotUp() &&
+                        ((RegDiff < AnsprZuO) && !zustand.wasUp() &&
                                 ((SollwertRev - IstwMin) > AnsprZuO))
                                 ||
-                                ((RegDiff > AnsprAufO) && Zustand.prevZustandNotDown() &&
+                                ((RegDiff > AnsprAufO) && !zustand.wasDown() &&
                                         ((SollwertRev - IstwMax) > AnsprAufO))
                 ) {
                     ZwspAufO = AnsprAufO + AnsprBand;
@@ -130,49 +131,11 @@ public class Sample {
 
             }
 
-            // --- this block is only to set the local Zustand[0] and [1]
-            Zustand.roll(stellFwd, nImpuls);
-            // --- this block is only to set the local Zustand[0] and [1]
+            zustand.setFrom(stellFwd, nImpuls);
         }
 
         Globals.StellFwd = stellFwd.value;
         Globals.NImpuls = nImpuls.value;
     }
-
-    static class ZustandX {
-        final int[] Zustand = new int[]{STATE_OUTSIDE_DEADZONE, STATE_OUTSIDE_DEADZONE};
-
-        boolean prevZustandNotDown() {
-            return Zustand[1] != STATE_MOVE_DOWN;
-        }
-
-        boolean zustandInDeadzone() {
-            return Zustand[0] == STATE_WITHIN_DEADZONE;
-        }
-
-        boolean preZustandNotUp() {
-            return Zustand[1] != STATE_MOVE_UP;
-        }
-
-        void roll(sample.StellFwd stellFwd, sample.NImpuls nImpuls) {
-            int zw;
-            zw = Zustand[0];
-            if (nImpuls.isTotzone()) {
-                zw = STATE_WITHIN_DEADZONE;
-            }
-            if (stellFwd.isZu()) {
-                zw = STATE_MOVE_DOWN;
-            }
-            if (stellFwd.isAuf()) {
-                zw = STATE_MOVE_UP;
-            }
-
-            if (zw != Zustand[0]) {
-                Zustand[1] = Zustand[0];
-                Zustand[0] = zw;
-            }
-        }
-    }
-
 
 }
