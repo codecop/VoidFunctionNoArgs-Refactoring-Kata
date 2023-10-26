@@ -25,3 +25,8 @@ What did I do?
   * 5'
 
 * Do the same with other output NImpuls
+
+* Scan the code and see blocks of working with different values
+  * go for blocks with few variables first
+  * split IFs to separate value usage
+

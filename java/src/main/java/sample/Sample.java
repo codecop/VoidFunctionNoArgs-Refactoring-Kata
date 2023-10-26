@@ -11,10 +11,6 @@ public class Sample {
     private static final int[] Zustand = new int[2];
 
     public static void theFunctionToTest() {
-        int ZwspAufO;
-        int ZwspZuV;
-        int zw;
-
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
@@ -27,6 +23,10 @@ public class Sample {
             } else {
                 NRegFkt |= TOTZONE_ALT;
             }
+
+            // --- this block is only to set "Zwsp*"
+            int ZwspAufO;
+            int ZwspZuV;
             ZwspAufO = AnsprAufO;
             ZwspZuV = AnsprZuO;
             if (Zustand[0] == STATE_WITHIN_DEADZONE) {
@@ -52,6 +52,7 @@ public class Sample {
                     ZwspZuV = ZwspZuV - 37;
                 }
             }
+            // --- this block is only to set "Zwsp*"
 
             if (AnsprZuV > ZwspZuV) {
                 AnsprZuV = ZwspZuV;
@@ -61,13 +62,19 @@ public class Sample {
             }
 
             stellFwd.reset();
-            int PraeAufWirk = 0;
-            int PraeZuWirk = 0;
 
             if ((RegDiff >= ZwspZuV) && (RegDiff <= ZwspAufO)) {
                 nImpuls.setTotzone();
             } else {
-                nImpuls.reset();
+                nImpuls.resetTotzone();
+            }
+
+            // --- this block is only to set "praeWirk"
+            int PraeAufWirk = 0;
+            int PraeZuWirk = 0;
+
+            if ((RegDiff >= ZwspZuV) && (RegDiff <= ZwspAufO)) {
+            } else {
                 PraeAufWirk = AnsprAufV;
                 PraeZuWirk = AnsprZuV;
             }
@@ -79,14 +86,15 @@ public class Sample {
                 PraeAufWirk = PRAE_WIRK_2;
                 PraeZuWirk = -PRAE_WIRK_2;
             }
-
             if (AnsprAufV > PraeAufWirk) {
                 PraeAufWirk = AnsprAufV;
             }
             if (AnsprZuV < PraeZuWirk) {
                 PraeZuWirk = AnsprZuV;
             }
+            // --- this block is only to set "praeWirk"
 
+            // --- this block is only to set the stellFwd "result"
             if (RegDiff < PraeZuWirk) {
                 stellFwd.setZuV();
             } else {
@@ -104,8 +112,8 @@ public class Sample {
                         }
                     }
                 }
-
             }
+            // --- this block is only to set the stellFwd "result"
 
             if (PraeAufWirk == AnsprAufV || PraeZuWirk == AnsprZuV) {
                 if (nImpuls.isTotzone()) {
@@ -122,6 +130,8 @@ public class Sample {
 
             }
 
+            // --- this block is only to set the local Zustand[0] and [1]
+            int zw;
             zw = Zustand[0];
             if (nImpuls.isTotzone()) {
                 zw = STATE_WITHIN_DEADZONE;
@@ -137,6 +147,7 @@ public class Sample {
                 Zustand[1] = Zustand[0];
                 Zustand[0] = zw;
             }
+            // --- this block is only to set the local Zustand[0] and [1]
         }
 
         Globals.StellFwd = stellFwd.value;

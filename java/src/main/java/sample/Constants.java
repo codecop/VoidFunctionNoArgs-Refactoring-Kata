@@ -4,11 +4,13 @@ public class Constants {
     public static int C_IBS_NOK = 0;
     public static int C_IBS_OK = 1;
 
+    // only RegMode
     public static int N_VALVE_CROSS = 0;
     public static int N_VALVE_DIAG = 1;
     public static int N_MANUAL = 2;
     public static int N_AUTOMATIK = 3;
 
+    // only local Zustand
     public static int STATE_OUTSIDE_DEADZONE = 0;
     public static int STATE_WITHIN_DEADZONE = 1;
     public static int STATE_MOVE_UP = 3;

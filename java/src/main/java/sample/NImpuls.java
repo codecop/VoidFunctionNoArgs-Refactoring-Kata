@@ -5,15 +5,12 @@ import static sample.Constants.TY_GRENZ_1;
 import static sample.Constants.TY_GRENZ_2;
 
 class NImpuls {
+    // this are 3 values, totzone, grenz1 and grenz2
 
     int value;
 
     public NImpuls(int value) {
         this.value = value;
-    }
-
-    void reset() {
-        value &= ~TOTZONE;
     }
 
     boolean isTotzone() {
@@ -26,6 +23,10 @@ class NImpuls {
 
     boolean isTyGrenz2() {
         return (value & TY_GRENZ_2) != 0;
+    }
+
+    void resetTotzone() {
+        value &= ~TOTZONE;
     }
 
     void setTotzone() {
