@@ -7,7 +7,10 @@ import org.junit.jupiter.api.Test;
 class SampleTest {
 
     @Test
-    void shouldAssertPlainJUnit() {
+    void firstTest() {
+        // globals to something -> quick way to set from template
+        Sample.theFunctionToTest();
+        // assert globals to sth, quick way to read and compare
         assertEquals(2, 1 + 1);
     }
 
