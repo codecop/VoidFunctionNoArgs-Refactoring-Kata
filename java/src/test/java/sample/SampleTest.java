@@ -2,7 +2,6 @@ package sample;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import static sample.Constants.*;
 
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,8 @@ import java.util.Comparator;
 import java.util.List;
 
 class SampleTest {
+
+    final boolean COVERAGE_MODE = false;
 
     @Test
     void combinationTest() throws IllegalAccessException, IOException {
@@ -133,10 +134,10 @@ class SampleTest {
         Files.write(receivedFile, received.getBytes());
 
         Path approvedFile = Paths.get(prefix + "approved" + suffix);
-        // coverage mode
-        // if (!approvedFile.toFile().exists()) {
-        Files.write(approvedFile, received.getBytes());
-        // }
+
+        if (COVERAGE_MODE || !approvedFile.toFile().exists()) {
+            Files.write(approvedFile, received.getBytes());
+        }
 
         String approved = new String(Files.readAllBytes(approvedFile));
         assertEquals(approved, received);
