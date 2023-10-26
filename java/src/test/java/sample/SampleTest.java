@@ -33,7 +33,6 @@ class SampleTest {
         final List<Integer> allBinSteuer = Arrays.asList(0, BO_REGLER);
         final List<Integer> allNerker1 = Arrays.asList(0, STROM_GRENZ);
         final List<Integer> allNImpuls = Arrays.asList(0, TOTZONE, TY_GRENZ_1, TY_GRENZ_2);
-        final List<Integer> allNRegFkt = Arrays.asList(0);
         final List<Integer> allRegDiff = Arrays.asList(-1, 0, 1);
         final List<Integer> allRegDiffSch = Arrays.asList(-1, 0, 1, 10);
         final List<Integer> allRegMode = Arrays.asList(0, N_AUTOMATIK, N_VALVE_DIAG);
@@ -53,41 +52,38 @@ class SampleTest {
                                     for (int BinSteuer : allBinSteuer) {
                                         for (int Nerker1 : allNerker1) {
                                             for (int NImpuls : allNImpuls) {
-                                                for (int NRegFkt : allNRegFkt) {
-                                                    for (int RegDiff : allRegDiff) {
-                                                        for (int RegDiffSch : allRegDiffSch) {
-                                                            for (int RegMode : allRegMode) {
-                                                                for (int SollwertRev : allSollwertRev) {
-                                                                    for (int StellFwd : allStellFwd) {
-                                                                        for (int StellIstRev : allStellIstRev) {
-                                                                            for (int WirkFall : allWirkFall) {
+                                                for (int RegDiff : allRegDiff) {
+                                                    for (int RegDiffSch : allRegDiffSch) {
+                                                        for (int RegMode : allRegMode) {
+                                                            for (int SollwertRev : allSollwertRev) {
+                                                                for (int StellFwd : allStellFwd) {
+                                                                    for (int StellIstRev : allStellIstRev) {
+                                                                        for (int WirkFall : allWirkFall) {
 
-                                                                                // set all globals
-                                                                                Globals.AnsprAufO = AnsprAufO;
-                                                                                Globals.AnsprAufV = AnsprAufV;
-                                                                                Globals.AnsprBand = AnsprBand;
-                                                                                Globals.AnsprHyst = AnsprHyst;
-                                                                                Globals.AnsprZuO = AnsprZuO;
-                                                                                Globals.AnsprZuV = AnsprZuV;
-                                                                                Globals.AutoIbsOk = AutoIbsOk;
-                                                                                Globals.BinSteuer = BinSteuer;
-                                                                                Globals.Nerker1 = Nerker1;
-                                                                                Globals.NImpuls = NImpuls;
-                                                                                Globals.NRegFkt = NRegFkt;
-                                                                                Globals.RegDiff = RegDiff;
-                                                                                Globals.RegDiffSch = RegDiffSch;
-                                                                                Globals.RegMode = RegMode;
-                                                                                Globals.SollwertRev = SollwertRev;
-                                                                                Globals.StellFwd = StellFwd;
-                                                                                Globals.StellIstRev = StellIstRev;
-                                                                                Globals.WirkFall = WirkFall;
+                                                                            // set all globals
+                                                                            Globals.AnsprAufO = AnsprAufO;
+                                                                            Globals.AnsprAufV = AnsprAufV;
+                                                                            Globals.AnsprBand = AnsprBand;
+                                                                            Globals.AnsprHyst = AnsprHyst;
+                                                                            Globals.AnsprZuO = AnsprZuO;
+                                                                            Globals.AnsprZuV = AnsprZuV;
+                                                                            Globals.AutoIbsOk = AutoIbsOk;
+                                                                            Globals.BinSteuer = BinSteuer;
+                                                                            Globals.Nerker1 = Nerker1;
+                                                                            Globals.NImpuls = NImpuls;
+                                                                            Globals.RegDiff = RegDiff;
+                                                                            Globals.RegDiffSch = RegDiffSch;
+                                                                            Globals.RegMode = RegMode;
+                                                                            Globals.SollwertRev = SollwertRev;
+                                                                            Globals.StellFwd = StellFwd;
+                                                                            Globals.StellIstRev = StellIstRev;
+                                                                            Globals.WirkFall = WirkFall;
 
-                                                                                // run code
-                                                                                Sample.theFunctionToTest();
+                                                                            // run code
+                                                                            Sample.theFunctionToTest();
 
-                                                                                // capture state
-                                                                                totalState.append(captureState());
-                                                                            }
+                                                                            // capture state
+                                                                            totalState.append(captureState());
                                                                         }
                                                                     }
                                                                 }
@@ -113,13 +109,20 @@ class SampleTest {
         StringBuilder state = new StringBuilder();
         Field[] fields = Globals.class.getDeclaredFields();
         Arrays.sort(fields, Comparator.comparing(Field::getName));
+        List<String> readOnlyFields = Arrays.asList(("AnsprAufO,AnsprZuO,AnsprBand,AnsprHyst,RegDiff," +
+                "RegDiffSch,SollwertRev,StellIstRev,WirkFall,AutoIbsOk,BinSteuer,Nerker1,NImpuls," +
+                "RegMode").split(","));
         for (Field field : fields) {
-            if (Modifier.isPublic(field.getModifiers())) {
-                //state.append(field.getName());
-                //state.append(';');
-                state.append(field.get(null));
-                state.append(',');
+            if (!Modifier.isPublic(field.getModifiers())) {
+                continue;
             }
+            if (readOnlyFields.contains(field.getName())) {
+                continue;
+            }
+            //state.append(field.getName());
+            //state.append(';');
+            state.append(field.get(null));
+            state.append(',');
         }
         state.append('\n');
         return state.toString();
