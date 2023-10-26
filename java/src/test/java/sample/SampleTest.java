@@ -125,7 +125,8 @@ class SampleTest {
     }
 
     private void assertTotalState(String received) throws IOException {
-        String prefix = "src/test/java/sample/totalState.";
+        // String prefix = "src/test/java/sample/totalState.";
+        String prefix = "target/totalState.";
         String suffix = ".txt";
         Path receivedFile = Paths.get(prefix + "received" + suffix);
 
@@ -134,7 +135,7 @@ class SampleTest {
         Path approvedFile = Paths.get(prefix + "approved" + suffix);
         // coverage mode
         // if (!approvedFile.toFile().exists()) {
-            Files.write(approvedFile, received.getBytes());
+        Files.write(approvedFile, received.getBytes());
         // }
 
         String approved = new String(Files.readAllBytes(approvedFile));
