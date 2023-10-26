@@ -15,10 +15,12 @@ public class Sample {
         int ZwspZuV;
         int zw;
 
-        if ((AutoIbsOk == C_IBS_OK) && 
-            ((RegMode == N_AUTOMATIK) || (RegMode == N_VALVE_DIAG)) && 
-            ((BinSteuer & BO_REGLER) != 0)) {
-            foo_reset();
+        StellFwdWrapper StellFwd = new StellFwdWrapper();
+
+        if ((AutoIbsOk == C_IBS_OK) &&
+                ((RegMode == N_AUTOMATIK) || (RegMode == N_VALVE_DIAG)) &&
+                ((BinSteuer & BO_REGLER) != 0)) {
+            StellFwd.reset();
         } else {
             if ((NImpuls & TOTZONE) == 0) {
                 NRegFkt &= ~(TOTZONE_ALT);
@@ -32,12 +34,12 @@ public class Sample {
                 ZwspZuV = AnsprZuO - AnsprHyst;
 
                 if (
-                     ((RegDiff < AnsprZuO) && (Zustand[1] != STATE_MOVE_UP) && 
-                     ((SollwertRev - IstwMin) > AnsprZuO))
-                     || 
-                     ((RegDiff > AnsprAufO) && (Zustand[1] != STATE_MOVE_DOWN) && 
-                     ((SollwertRev - IstwMax) > AnsprAufO))
-                  ) {
+                        ((RegDiff < AnsprZuO) && (Zustand[1] != STATE_MOVE_UP) &&
+                                ((SollwertRev - IstwMin) > AnsprZuO))
+                                ||
+                                ((RegDiff > AnsprAufO) && (Zustand[1] != STATE_MOVE_DOWN) &&
+                                        ((SollwertRev - IstwMax) > AnsprAufO))
+                ) {
                     ZwspAufO = AnsprAufO + AnsprBand;
                     ZwspZuV = AnsprZuO - AnsprBand;
                 }
@@ -58,7 +60,7 @@ public class Sample {
                 AnsprAufV = ZwspAufO;
             }
 
-            foo_reset();
+            StellFwd.reset();
             int PraeAufWirk = 0;
             int PraeZuWirk = 0;
 
@@ -86,17 +88,17 @@ public class Sample {
             }
 
             if (RegDiff < PraeZuWirk) {
-                setZuV();
+                StellFwd.setZuV();
             } else {
                 if (RegDiff > PraeAufWirk) {
-                    setAufV();
+                    StellFwd.setAufV();
                 } else {
                     if (RegDiffSch > ZwspAufO) {
                         if (RegDiff > ZwspAufO) {
                             if (RegDiffSch > AnsprAufV) {
-                                setAufV();
+                                StellFwd.setAufV();
                             } else {
-                                setAufO();
+                                StellFwd.setAufO();
                                 // this is not covered!
                             }
                         }
@@ -124,10 +126,10 @@ public class Sample {
             if ((NImpuls & TOTZONE) != 0) {
                 zw = STATE_WITHIN_DEADZONE;
             }
-            if (foo_isZu()) {
+            if (StellFwd.isZu()) {
                 zw = STATE_MOVE_DOWN;
             }
-            if (foo_isAuf()) {
+            if (StellFwd.isAuf()) {
                 zw = STATE_MOVE_UP;
             }
 
@@ -138,31 +140,32 @@ public class Sample {
         }
     }
 
-    static class StellFwdW {
+    static class StellFwdWrapper {
+
+        void reset() {
+            StellFwd &= ~(ZU_O | ZU_V | AUF_O | AUF_V);
+        }
+
+        boolean isAuf() {
+            return (StellFwd & (AUF_O | AUF_V)) != 0;
+        }
+
+        boolean isZu() {
+            return (StellFwd & (ZU_O | ZU_V)) != 0;
+        }
+
+        void setAufO() {
+            StellFwd |= AUF_O;
+        }
+
+        void setAufV() {
+            StellFwd |= AUF_V;
+        }
+
+        void setZuV() {
+            StellFwd |= ZU_V;
+        }
 
     }
 
-    private static void setAufO() {
-        StellFwd |= AUF_O;
-    }
-
-    private static void setAufV() {
-        StellFwd |= AUF_V;
-    }
-
-    private static void setZuV() {
-        StellFwd |= ZU_V;
-    }
-
-    private static boolean foo_isAuf() {
-        return (StellFwd & (AUF_O | AUF_V)) != 0;
-    }
-
-    private static boolean foo_isZu() {
-        return (StellFwd & (ZU_O | ZU_V)) != 0;
-    }
-
-    private static void foo_reset() {
-        StellFwd &= ~(ZU_O | ZU_V | AUF_O | AUF_V);
-    }
 }
