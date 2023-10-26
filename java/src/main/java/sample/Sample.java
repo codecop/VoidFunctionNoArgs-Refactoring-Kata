@@ -8,7 +8,7 @@ public class Sample {
     // private static variables
     private static int IstwMin;
     private static int IstwMax;
-    private static int[] Zustand = new int[2];
+    private static final int[] Zustand = new int[2];
 
     public static void theFunctionToTest() {
         int ZwspAufO;
@@ -138,34 +138,6 @@ public class Sample {
                 Zustand[0] = zw;
             }
         }
-    }
-
-    static class StellFwdWrapper {
-
-        void reset() {
-            StellFwd &= ~(ZU_O | ZU_V | AUF_O | AUF_V);
-        }
-
-        boolean isAuf() {
-            return (StellFwd & (AUF_O | AUF_V)) != 0;
-        }
-
-        boolean isZu() {
-            return (StellFwd & (ZU_O | ZU_V)) != 0;
-        }
-
-        void setAufO() {
-            StellFwd |= AUF_O;
-        }
-
-        void setAufV() {
-            StellFwd |= AUF_V;
-        }
-
-        void setZuV() {
-            StellFwd |= ZU_V;
-        }
-
     }
 
 }
