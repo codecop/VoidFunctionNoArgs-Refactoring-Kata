@@ -18,7 +18,7 @@ public class Sample {
         if ((AutoIbsOk == C_IBS_OK) && 
             ((RegMode == N_AUTOMATIK) || (RegMode == N_VALVE_DIAG)) && 
             ((BinSteuer & BO_REGLER) != 0)) {
-            StellFwd &= ~(ZU_O | ZU_V | AUF_O | AUF_V);
+            foo_reset();
         } else {
             if ((NImpuls & TOTZONE) == 0) {
                 NRegFkt &= ~(TOTZONE_ALT);
@@ -58,7 +58,7 @@ public class Sample {
                 AnsprAufV = ZwspAufO;
             }
 
-            StellFwd &= ~(ZU_O | ZU_V | AUF_O | AUF_V);
+            foo_reset();
             int PraeAufWirk = 0;
             int PraeZuWirk = 0;
 
@@ -86,17 +86,18 @@ public class Sample {
             }
 
             if (RegDiff < PraeZuWirk) {
-                StellFwd |= ZU_V;
+                setZuV();
             } else {
                 if (RegDiff > PraeAufWirk) {
-                    StellFwd |= AUF_V;
+                    setAufV();
                 } else {
                     if (RegDiffSch > ZwspAufO) {
                         if (RegDiff > ZwspAufO) {
                             if (RegDiffSch > AnsprAufV) {
-                                StellFwd |= AUF_V;
+                                setAufV();
                             } else {
-                                StellFwd |= AUF_O; // this is not covered!
+                                setAufO();
+                                // this is not covered!
                             }
                         }
                     }
@@ -123,10 +124,10 @@ public class Sample {
             if ((NImpuls & TOTZONE) != 0) {
                 zw = STATE_WITHIN_DEADZONE;
             }
-            if ((StellFwd & (ZU_O | ZU_V)) != 0) {
+            if (foo_isZu()) {
                 zw = STATE_MOVE_DOWN;
             }
-            if ((StellFwd & (AUF_O | AUF_V)) != 0) {
+            if (foo_isAuf()) {
                 zw = STATE_MOVE_UP;
             }
 
@@ -135,5 +136,33 @@ public class Sample {
                 Zustand[0] = zw;
             }
         }
+    }
+
+    static class StellFwdW {
+
+    }
+
+    private static void setAufO() {
+        StellFwd |= AUF_O;
+    }
+
+    private static void setAufV() {
+        StellFwd |= AUF_V;
+    }
+
+    private static void setZuV() {
+        StellFwd |= ZU_V;
+    }
+
+    private static boolean foo_isAuf() {
+        return (StellFwd & (AUF_O | AUF_V)) != 0;
+    }
+
+    private static boolean foo_isZu() {
+        return (StellFwd & (ZU_O | ZU_V)) != 0;
+    }
+
+    private static void foo_reset() {
+        StellFwd &= ~(ZU_O | ZU_V | AUF_O | AUF_V);
     }
 }

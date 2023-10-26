@@ -1,0 +1,18 @@
+What did I do?
+* Get the code
+
+* Start first test
+  * need some kind of approval for all the globals
+  * and combinations
+  * 25'
+* Tweak combinations to get coverage
+  * 1 line missing
+  * 45'
+
+* Analyse the globals
+  * group by read/write usage and
+  * identify used constants for each one
+  * 30'
+  * Could create a graph here, what works with what.
+
+* Focus on pure Output StellFwd
