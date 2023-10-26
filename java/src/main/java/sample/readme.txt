@@ -24,12 +24,11 @@ What did I do?
   * extract a policy and we are done
   * 5'
 
-* Do the same with other output NImpuls
+* Do the same with other output NImpuls 10'
 
 * Scan the code and see blocks of working with different values
   * go for blocks with few variables first
   * split IFs to separate value usage
-
-* General
   * when extracting keep the code as is and create duplicate yes/no inverted getters etc.
-
+  * reduce scope to avoid having to deal with globals at once
+  * 30'

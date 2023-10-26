@@ -116,7 +116,10 @@ public class Sample {
             }
             // --- this block is only to set the stellFwd "result"
 
+            // set for next time
+
             if (PraeAufWirk == AnsprAufV || PraeZuWirk == AnsprZuV) {
+                // --- this block is only to set the "Ist*" for next time
                 if (nImpuls.isTotzone()) {
                     if (StellIstRev < IstwMin) {
                         IstwMin = StellIstRev;
@@ -128,7 +131,7 @@ public class Sample {
                     IstwMax = PERCENT_MIN;
                     IstwMin = PERCENT_MAX;
                 }
-
+                // --- this block is only to set the "Ist*"
             }
 
             zustand.setFrom(stellFwd, nImpuls);
