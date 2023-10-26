@@ -9,6 +9,9 @@ public class Globals {
          AnsprHyst
          RegDiff
          SollwertRev
+
+         Nerker1
+         WirkFall
      */
     public static int AnsprAufO = 0; // only read, works with AnsprHyst, RegDiff, SollwertRev
     public static int AnsprZuO = 0; // only read, works with AnsprHyst, RegDiff, SollwertRev
@@ -21,9 +24,9 @@ public class Globals {
 
     public static int AnsprZuV = 0; // read/write,  locals ...
     public static int RegDiffSch = 0; // only read, locals ...
-    public static int SollwertRev = 0; // only read, ...
+
+    public static int SollwertRev = 0; // only read, only Ist*
     public static int StellIstRev = 0; // only read, only Ist*
-    public static int WirkFall = 0; // only read, 0 or not
 
     // single bit usage, only if active
     /* DONE */ public static int AutoIbsOk = 0; // only read, enum C_IBS_OK or not
@@ -31,10 +34,11 @@ public class Globals {
     /* DONE */ public static int RegMode = 0; // enum N_AUTOMATIC, N_VALVE or not
 
     // single bit usage
-    public static int Nerker1 = 0; // only read, bit STROM_GRENZ or not
+    public static int Nerker1 = 0; // only read 1, bit STROM_GRENZ or not
+    public static int WirkFall = 0; // only read 1, 0 or not
 
     // written
     public static int NRegFkt = 0; // only write: reset and set TOTZONE_ALT (= flag)
-    public static int NImpuls = 0; // read/write, bit TOTZONE, TY_GRENZ1, 2 or not
+    /* DONE */ public static int NImpuls = 0; // read/write, bit TOTZONE, TY_GRENZ1, 2 or not
     /* DONE */ public static int StellFwd = 0; // read/write, bits ZU*, AUF*
 }
