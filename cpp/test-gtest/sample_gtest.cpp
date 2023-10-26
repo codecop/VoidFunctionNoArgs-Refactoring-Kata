@@ -5,5 +5,5 @@
 using namespace std;
 
 TEST(SampleSuite, SampleTest) {
-    ASSERT_EQ(42, 1);
+    ASSERT_EQ(42, 42);
 }

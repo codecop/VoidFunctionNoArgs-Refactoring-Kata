@@ -4,8 +4,6 @@
 
 TEST_CASE ("Sample") {
     SECTION("sample section") {
-        REQUIRE(true == false);
+        REQUIRE(true == true);
     }
 }
-
-

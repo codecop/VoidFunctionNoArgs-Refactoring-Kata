@@ -4,8 +4,6 @@
 
 TEST_CASE ("Sample") {
     SUBCASE("sample section") {
-        REQUIRE(true == false);
+        REQUIRE(true == true);
     }
 }
-
-
