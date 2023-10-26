@@ -20,3 +20,7 @@ What did I do?
   * abstractions for bit operations
   * 25'
 
+* There is a guard clause using several globals only once
+  * extract a policy and we are done
+  * 5'
+

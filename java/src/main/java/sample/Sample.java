@@ -15,11 +15,10 @@ public class Sample {
         int ZwspZuV;
         int zw;
 
+        AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
 
-        if ((AutoIbsOk == C_IBS_OK) &&
-                ((RegMode == N_AUTOMATIK) || (RegMode == N_VALVE_DIAG)) &&
-                ((BinSteuer & BO_REGLER) != 0)) {
+        if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
         } else {
             if ((NImpuls & TOTZONE) == 0) {
