@@ -1,11 +1,15 @@
 package sample;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static sample.Constants.*;
 
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,26 +20,26 @@ import java.util.List;
 class SampleTest {
 
     @Test
-    void firstTest() throws IllegalAccessException, IOException {
+    void combinationTest() throws IllegalAccessException, IOException {
         // all values
-        final List<Integer> allAnsprAufO = Arrays.asList(0);
-        final List<Integer> allAnsprAufV = Arrays.asList(0);
+        final List<Integer> allAnsprAufO = Arrays.asList(-1, 0, 1); // copied to AnsprAufV
+        final List<Integer> allAnsprAufV = Arrays.asList(-1, 0, 1);
         final List<Integer> allAnsprBand = Arrays.asList(0);
-        final List<Integer> allAnsprHyst = Arrays.asList(0);
+        final List<Integer> allAnsprHyst = Arrays.asList(-1, 0, 1);
         final List<Integer> allAnsprZuO = Arrays.asList(0);
         final List<Integer> allAnsprZuV = Arrays.asList(0);
-        final List<Integer> allAutoIbsOk = Arrays.asList(0);
-        final List<Integer> allBinSteuer = Arrays.asList(0);
-        final List<Integer> allNerker1 = Arrays.asList(0);
-        final List<Integer> allNImpuls = Arrays.asList(0);
+        final List<Integer> allAutoIbsOk = Arrays.asList(0, C_IBS_OK);
+        final List<Integer> allBinSteuer = Arrays.asList(0, BO_REGLER);
+        final List<Integer> allNerker1 = Arrays.asList(0, STROM_GRENZ);
+        final List<Integer> allNImpuls = Arrays.asList(0, TOTZONE, TY_GRENZ_1, TY_GRENZ_2);
         final List<Integer> allNRegFkt = Arrays.asList(0);
-        final List<Integer> allRegDiff = Arrays.asList(0);
-        final List<Integer> allRegDiffSch = Arrays.asList(0);
-        final List<Integer> allRegMode = Arrays.asList(0);
+        final List<Integer> allRegDiff = Arrays.asList(-10, -1, 0, 1, 10);
+        final List<Integer> allRegDiffSch = Arrays.asList(-10, -1, 0, 1, 10);
+        final List<Integer> allRegMode = Arrays.asList(0, N_AUTOMATIK, N_VALVE_DIAG);
         final List<Integer> allSollwertRev = Arrays.asList(0);
-        final List<Integer> allStellFwd = Arrays.asList(0);
-        final List<Integer> allStellIstRev = Arrays.asList(0);
-        final List<Integer> allWirkFall = Arrays.asList(0);
+        final List<Integer> allStellFwd = Arrays.asList(0); // is out param
+        final List<Integer> allStellIstRev = Arrays.asList(0, 50);
+        final List<Integer> allWirkFall = Arrays.asList(0, 1);
 
         StringBuilder totalState = new StringBuilder();
         for (int AnsprAufO : allAnsprAufO) {
@@ -109,11 +113,14 @@ class SampleTest {
         Field[] fields = Globals.class.getDeclaredFields();
         Arrays.sort(fields, Comparator.comparing(Field::getName));
         for (Field field : fields) {
-            state.append(field.getName());
-            state.append(';');
-            state.append(field.get(null));
-            state.append('\n');
+            if (Modifier.isPublic(field.getModifiers())) {
+                //state.append(field.getName());
+                //state.append(';');
+                state.append(field.get(null));
+                state.append(',');
+            }
         }
+        state.append('\n');
         return state.toString();
     }
 
@@ -125,15 +132,16 @@ class SampleTest {
         Files.write(receivedFile, received.getBytes());
 
         Path approvedFile = Paths.get(prefix + "approved" + suffix);
-        if (!approvedFile.toFile().exists()) {
+        // coverage mode
+        // if (!approvedFile.toFile().exists()) {
             Files.write(approvedFile, received.getBytes());
-        }
+        // }
 
         String approved = new String(Files.readAllBytes(approvedFile));
         assertEquals(approved, received);
 
         // success
-        receivedFile.toFile().delete();
+        assertTrue(receivedFile.toFile().delete());
     }
 
 }
