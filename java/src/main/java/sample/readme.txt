@@ -16,3 +16,7 @@ What did I do?
   * Could create a graph here, what works with what.
 
 * Focus on pure Output StellFwd
+  * make it a class with its field and
+  * abstractions for bit operations
+  * 25'
+

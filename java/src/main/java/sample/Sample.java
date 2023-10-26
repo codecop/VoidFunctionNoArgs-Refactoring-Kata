@@ -15,12 +15,12 @@ public class Sample {
         int ZwspZuV;
         int zw;
 
-        StellFwdWrapper StellFwd = new StellFwdWrapper();
+        StellFwd stellFwd = new StellFwd(Globals.StellFwd);
 
         if ((AutoIbsOk == C_IBS_OK) &&
                 ((RegMode == N_AUTOMATIK) || (RegMode == N_VALVE_DIAG)) &&
                 ((BinSteuer & BO_REGLER) != 0)) {
-            StellFwd.reset();
+            stellFwd.reset();
         } else {
             if ((NImpuls & TOTZONE) == 0) {
                 NRegFkt &= ~(TOTZONE_ALT);
@@ -60,7 +60,7 @@ public class Sample {
                 AnsprAufV = ZwspAufO;
             }
 
-            StellFwd.reset();
+            stellFwd.reset();
             int PraeAufWirk = 0;
             int PraeZuWirk = 0;
 
@@ -88,17 +88,17 @@ public class Sample {
             }
 
             if (RegDiff < PraeZuWirk) {
-                StellFwd.setZuV();
+                stellFwd.setZuV();
             } else {
                 if (RegDiff > PraeAufWirk) {
-                    StellFwd.setAufV();
+                    stellFwd.setAufV();
                 } else {
                     if (RegDiffSch > ZwspAufO) {
                         if (RegDiff > ZwspAufO) {
                             if (RegDiffSch > AnsprAufV) {
-                                StellFwd.setAufV();
+                                stellFwd.setAufV();
                             } else {
-                                StellFwd.setAufO();
+                                stellFwd.setAufO();
                                 // this is not covered!
                             }
                         }
@@ -126,10 +126,10 @@ public class Sample {
             if ((NImpuls & TOTZONE) != 0) {
                 zw = STATE_WITHIN_DEADZONE;
             }
-            if (StellFwd.isZu()) {
+            if (stellFwd.isZu()) {
                 zw = STATE_MOVE_DOWN;
             }
-            if (StellFwd.isAuf()) {
+            if (stellFwd.isAuf()) {
                 zw = STATE_MOVE_UP;
             }
 
@@ -138,6 +138,8 @@ public class Sample {
                 Zustand[0] = zw;
             }
         }
+
+        Globals.StellFwd = stellFwd.value;
     }
 
 }
