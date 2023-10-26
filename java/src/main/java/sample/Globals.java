@@ -26,16 +26,15 @@ public class Globals {
     public static int WirkFall = 0; // only read, 0 or not
 
     // single bit usage, only if active
-    public static int AutoIbsOk = 0; // only read, enum C_IBS_OK or not
-    public static int BinSteuer = 0; // only read, bit BO_REGLER or not
-    public static int RegMode = 0; // enum N_AUTOMATIC, N_VALVE or not
+    /* DONE */ public static int AutoIbsOk = 0; // only read, enum C_IBS_OK or not
+    /* DONE */ public static int BinSteuer = 0; // only read, bit BO_REGLER or not
+    /* DONE */ public static int RegMode = 0; // enum N_AUTOMATIC, N_VALVE or not
 
     // single bit usage
     public static int Nerker1 = 0; // only read, bit STROM_GRENZ or not
-    public static int NImpuls = 0; // only read, bit TOTZONE, TY_GRENZ1, 2 or not
 
     // written
     public static int NRegFkt = 0; // only write: reset and set TOTZONE_ALT (= flag)
-    public static int StellFwd = 0; // read/write, bits ZU*, AUF*
-
+    public static int NImpuls = 0; // read/write, bit TOTZONE, TY_GRENZ1, 2 or not
+    /* DONE */ public static int StellFwd = 0; // read/write, bits ZU*, AUF*
 }

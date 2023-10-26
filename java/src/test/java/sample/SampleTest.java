@@ -110,7 +110,7 @@ class SampleTest {
         Field[] fields = Globals.class.getDeclaredFields();
         Arrays.sort(fields, Comparator.comparing(Field::getName));
         List<String> readOnlyFields = Arrays.asList(("AnsprAufO,AnsprZuO,AnsprBand,AnsprHyst,RegDiff," +
-                "RegDiffSch,SollwertRev,StellIstRev,WirkFall,AutoIbsOk,BinSteuer,Nerker1,NImpuls," +
+                "RegDiffSch,SollwertRev,StellIstRev,WirkFall,AutoIbsOk,BinSteuer,Nerker1," +
                 "RegMode").split(","));
         for (Field field : fields) {
             if (!Modifier.isPublic(field.getModifiers())) {
