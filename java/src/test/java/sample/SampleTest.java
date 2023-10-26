@@ -1,11 +1,13 @@
 package sample;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,7 +18,7 @@ import java.util.List;
 class SampleTest {
 
     @Test
-    void firstTest() throws IllegalAccessException, IOException {
+    void combinationTest() throws IllegalAccessException, IOException {
         // all values
         final List<Integer> allAnsprAufO = Arrays.asList(0);
         final List<Integer> allAnsprAufV = Arrays.asList(0);
@@ -109,10 +111,12 @@ class SampleTest {
         Field[] fields = Globals.class.getDeclaredFields();
         Arrays.sort(fields, Comparator.comparing(Field::getName));
         for (Field field : fields) {
-            state.append(field.getName());
-            state.append(';');
-            state.append(field.get(null));
-            state.append('\n');
+            if (Modifier.isPublic(field.getModifiers())) {
+                state.append(field.getName());
+                state.append(';');
+                state.append(field.get(null));
+                state.append('\n');
+            }
         }
         return state.toString();
     }
@@ -133,7 +137,7 @@ class SampleTest {
         assertEquals(approved, received);
 
         // success
-        receivedFile.toFile().delete();
+        assertTrue(receivedFile.toFile().delete());
     }
 
 }
