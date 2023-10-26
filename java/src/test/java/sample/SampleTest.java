@@ -24,7 +24,7 @@ class SampleTest {
         // all values
         final List<Integer> allAnsprAufO = Arrays.asList(-1, 0, 1); // copied to AnsprAufV
         final List<Integer> allAnsprAufV = Arrays.asList(-1, 0, 1);
-        final List<Integer> allAnsprBand = Arrays.asList(0);
+        final List<Integer> allAnsprBand = Arrays.asList(-1, 0);
         final List<Integer> allAnsprHyst = Arrays.asList(-1, 0, 1);
         final List<Integer> allAnsprZuO = Arrays.asList(0, 1);
         final List<Integer> allAnsprZuV = Arrays.asList(0);
@@ -33,8 +33,8 @@ class SampleTest {
         final List<Integer> allNerker1 = Arrays.asList(0, STROM_GRENZ);
         final List<Integer> allNImpuls = Arrays.asList(0, TOTZONE, TY_GRENZ_1, TY_GRENZ_2);
         final List<Integer> allNRegFkt = Arrays.asList(0);
-        final List<Integer> allRegDiff = Arrays.asList(-10, -1, 0, 1, 10);
-        final List<Integer> allRegDiffSch = Arrays.asList(-10, -1, 0, 1, 10);
+        final List<Integer> allRegDiff = Arrays.asList(-1, 0, 1);
+        final List<Integer> allRegDiffSch = Arrays.asList(-1, 0, 1, 10);
         final List<Integer> allRegMode = Arrays.asList(0, N_AUTOMATIK, N_VALVE_DIAG);
         final List<Integer> allSollwertRev = Arrays.asList(0, 10);
         final List<Integer> allStellFwd = Arrays.asList(0); // is out param
