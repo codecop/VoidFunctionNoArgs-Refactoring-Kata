@@ -30,3 +30,6 @@ What did I do?
   * go for blocks with few variables first
   * split IFs to separate value usage
 
+* General
+  * when extracting keep the code as is and create duplicate yes/no inverted getters etc.
+
