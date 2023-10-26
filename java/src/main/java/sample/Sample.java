@@ -22,7 +22,7 @@ public class Sample {
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
         } else {
-            if (nImpuls.notTotzone()) {
+            if (!nImpuls.isTotzone()) {
                 NRegFkt &= ~(TOTZONE_ALT);
             } else {
                 NRegFkt |= TOTZONE_ALT;
@@ -71,11 +71,11 @@ public class Sample {
                 PraeAufWirk = AnsprAufV;
                 PraeZuWirk = AnsprZuV;
             }
-            if (nImpuls.isGrenz1()) {
+            if (nImpuls.isTyGrenz1()) {
                 PraeAufWirk = PRAE_WIRK_1;
                 PraeZuWirk = -PRAE_WIRK_1;
             }
-            if (nImpuls.isGrenz2()) {
+            if (nImpuls.isTyGrenz2()) {
                 PraeAufWirk = PRAE_WIRK_2;
                 PraeZuWirk = -PRAE_WIRK_2;
             }
@@ -141,41 +141,6 @@ public class Sample {
 
         Globals.StellFwd = stellFwd.value;
         Globals.NImpuls = nImpuls.value;
-    }
-
-    static class NImpuls {
-
-        int value;
-
-        public NImpuls(int value) {
-            this.value = value;
-        }
-
-        boolean isGrenz2() {
-            return (value & TY_GRENZ_2) != 0;
-        }
-
-        boolean isGrenz1() {
-            return (value & TY_GRENZ_1) != 0;
-        }
-
-        boolean isTotzone() {
-            return (value & TOTZONE) != 0;
-        }
-
-        void reset() {
-            value &= ~TOTZONE;
-        }
-
-        void setTotzone() {
-            value |= TOTZONE;
-        }
-
-        boolean notTotzone() {
-            return (value & TOTZONE) == 0;
-        }
-
-
     }
 
 }
