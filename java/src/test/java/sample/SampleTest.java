@@ -26,7 +26,7 @@ class SampleTest {
         final List<Integer> allAnsprAufV = Arrays.asList(-1, 0, 1);
         final List<Integer> allAnsprBand = Arrays.asList(0);
         final List<Integer> allAnsprHyst = Arrays.asList(-1, 0, 1);
-        final List<Integer> allAnsprZuO = Arrays.asList(0);
+        final List<Integer> allAnsprZuO = Arrays.asList(0, 1);
         final List<Integer> allAnsprZuV = Arrays.asList(0);
         final List<Integer> allAutoIbsOk = Arrays.asList(0, C_IBS_OK);
         final List<Integer> allBinSteuer = Arrays.asList(0, BO_REGLER);
@@ -36,7 +36,7 @@ class SampleTest {
         final List<Integer> allRegDiff = Arrays.asList(-10, -1, 0, 1, 10);
         final List<Integer> allRegDiffSch = Arrays.asList(-10, -1, 0, 1, 10);
         final List<Integer> allRegMode = Arrays.asList(0, N_AUTOMATIK, N_VALVE_DIAG);
-        final List<Integer> allSollwertRev = Arrays.asList(0);
+        final List<Integer> allSollwertRev = Arrays.asList(0, 10);
         final List<Integer> allStellFwd = Arrays.asList(0); // is out param
         final List<Integer> allStellIstRev = Arrays.asList(0, 50);
         final List<Integer> allWirkFall = Arrays.asList(0, 1);
