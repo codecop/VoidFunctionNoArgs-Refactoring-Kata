@@ -11,10 +11,31 @@ public class Sample {
 
     private static final SampleZustand zustand = new SampleZustand();
 
+    static class Foo {
+        final int AnsprAufO;
+        final int AnsprZuO;
+        final int AnsprBand;
+        final int AnsprHyst;
+        final int SollwertRev;
+        final int Nerker1;
+        final int WirkFall;
+
+        public Foo(int AnsprAufO, int AnsprZuO, int AnsprBand, int AnsprHyst, int SollwertRev, int Nerker1, int WirkFall) {
+            this.AnsprAufO = AnsprAufO;
+            this.AnsprZuO = AnsprZuO;
+            this.AnsprBand = AnsprBand;
+            this.AnsprHyst = AnsprHyst;
+            this.SollwertRev = SollwertRev;
+            this.Nerker1 = Nerker1;
+            this.WirkFall = WirkFall;
+        }
+    }
+
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
+        Foo foo = new Foo(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
@@ -74,6 +95,7 @@ public class Sample {
             int PraeZuWirk = 0;
 
             if ((RegDiff >= zwsp.zuV) && (RegDiff <= zwsp.aufO)) {
+                // empty for now
             } else {
                 PraeAufWirk = AnsprAufV;
                 PraeZuWirk = AnsprZuV;

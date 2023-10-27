@@ -54,6 +54,7 @@ OO related approach for StellFwd, NImpuls, SampleZustand etc.
 FP approach with DAO/type/struct
 1. create static inner class with wrong name
 2. create struct with fields I want to wrap (local or global), use same names, fields public
+   * if fields are only set, make them final and set in constructor/creation
 3. instantiate it at beginning of method with short local name "foo"
 4. [large step] for each wrapped field
    * search and replace all occurrences X with "foo.X"
@@ -62,3 +63,9 @@ FP approach with DAO/type/struct
 6. clean up struct
    * make top level/other place
    * rename good class name, rename good field name, rename good local name
+     make local name like the prefix, mane field names the suffixes if it had prefix
+
+* Zwsp is easy as it is local.
+  * But I cannot extract it because it still uses globals.
+  * all initial values get an extra struct
+
