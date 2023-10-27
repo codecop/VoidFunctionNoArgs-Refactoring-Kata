@@ -14,6 +14,7 @@ What did I do?
   * identify used constants for each one
   * 30'
   * Could create a graph here, what works with what.
+    Could it be done automatically? All names linked to names in same line or vicinity
 
 * Focus on pure Output StellFwd
   * make it a class with its field and
@@ -31,4 +32,24 @@ What did I do?
   * split IFs to separate value usage
   * when extracting keep the code as is and create duplicate yes/no inverted getters etc.
   * reduce scope to avoid having to deal with globals at once
-  * 30'
+  * 20'
+
+* Zustand is only used in two places
+  * after sorting the methods I see what it does...
+
+OO related approach for StellFwd, NImpuls, SampleZustand etc.
+1. extract all methods which deal with the state
+2. create static inner class with wrong name
+3. pass value of global to constructor, keep name as it is for global (shadowing)
+4. instantiate it at beginning of method with short local name "foo"
+5. [large step]
+   * manually move the methods into the class (which is in same file)
+   * fix compile errors by adding "foo." to all calls which do not compile
+   * copy back the end value if needed to global at end of procedure
+6. clean up class
+   * make top level/other place
+   * rename good class name, rename good field name, rename good local name
+   * simplify methods, e.g. inline negative methods
+
+FP approach with DAO/type/struct
+1. tbd
