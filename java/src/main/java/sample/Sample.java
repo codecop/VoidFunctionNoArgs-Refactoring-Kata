@@ -13,7 +13,7 @@ public class Sample {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
-        SampleZwspSourceStruct zwspSource = new SampleZwspSourceStruct(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
+        ZwspSourceStruct zwspSource = new ZwspSourceStruct(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
@@ -24,34 +24,7 @@ public class Sample {
                 NRegFkt |= TOTZONE_ALT;
             }
 
-            // --- this block is only to set "Zwsp*"
-            SampleZwspStruct zwsp = new SampleZwspStruct();
-            zwsp.aufO = zwspSource.ansprAufO;
-            zwsp.zuV = zwspSource.ansprZuO;
-            if (zustand.isDeadzone()) {
-                zwsp.aufO = zwspSource.ansprAufO + zwspSource.ansprHyst;
-                zwsp.zuV = zwspSource.ansprZuO - zwspSource.ansprHyst;
-
-                if (
-                    ((RegDiff < zwspSource.ansprZuO) && !zustand.wasUp() &&
-                    ((zwspSource.sollwertRev - istw.min) > zwspSource.ansprZuO))
-                    ||
-                    ((RegDiff > zwspSource.ansprAufO) && !zustand.wasDown() &&
-                    ((zwspSource.sollwertRev - istw.max) > zwspSource.ansprAufO))
-                ) {
-                    zwsp.aufO = zwspSource.ansprAufO + zwspSource.ansprBand;
-                    zwsp.zuV = zwspSource.ansprZuO - zwspSource.ansprBand;
-                }
-            }
-
-            if ((zwspSource.nerker1 & STROM_GRENZ) != 0) {
-                if (zwspSource.wirkFall == 0) {
-                    zwsp.aufO = zwsp.aufO + 37;
-                } else {
-                    zwsp.zuV = zwsp.zuV - 37;
-                }
-            }
-            // --- this block is only to set "Zwsp*"
+            SampleZwspStruct zwsp = ZwspSourceStruct.create(zwspSource, zustand, RegDiff, istw);
 
             if (AnsprZuV > zwsp.zuV) {
                 AnsprZuV = zwsp.zuV;

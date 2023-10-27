@@ -65,8 +65,9 @@ FP approach with DAO/type/struct
    * make top level/other place
    * rename good class name, rename good field name, rename good local name
      make local name like the prefix, mane field names the suffixes if it had prefix
+7. extract function which will also use the struct
+   * make struct first parameter, named self
 
 * Zwsp is easy as it is local.
   * But I cannot extract it because it still uses globals.
   * all initial values get an extra struct
-
