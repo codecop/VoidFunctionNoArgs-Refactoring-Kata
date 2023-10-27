@@ -35,7 +35,6 @@ public class Sample {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
-        Foo foo = new Foo(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
@@ -47,27 +46,28 @@ public class Sample {
             }
 
             // --- this block is only to set "Zwsp*"
+            Foo foo = new Foo(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
             SampleZwspStruct zwsp = new SampleZwspStruct();
-            zwsp.aufO = AnsprAufO;
-            zwsp.zuV = AnsprZuO;
+            zwsp.aufO = foo.AnsprAufO;
+            zwsp.zuV = foo.AnsprZuO;
             if (zustand.isDeadzone()) {
-                zwsp.aufO = AnsprAufO + AnsprHyst;
-                zwsp.zuV = AnsprZuO - AnsprHyst;
+                zwsp.aufO = foo.AnsprAufO + foo.AnsprHyst;
+                zwsp.zuV = foo.AnsprZuO - foo.AnsprHyst;
 
                 if (
-                    ((RegDiff < AnsprZuO) && !zustand.wasUp() &&
-                    ((SollwertRev - IstwMin) > AnsprZuO))
+                    ((RegDiff < foo.AnsprZuO) && !zustand.wasUp() &&
+                    ((foo.SollwertRev - IstwMin) > foo.AnsprZuO))
                     ||
-                    ((RegDiff > AnsprAufO) && !zustand.wasDown() &&
-                    ((SollwertRev - IstwMax) > AnsprAufO))
+                    ((RegDiff > foo.AnsprAufO) && !zustand.wasDown() &&
+                    ((foo.SollwertRev - IstwMax) > foo.AnsprAufO))
                 ) {
-                    zwsp.aufO = AnsprAufO + AnsprBand;
-                    zwsp.zuV = AnsprZuO - AnsprBand;
+                    zwsp.aufO = foo.AnsprAufO + foo.AnsprBand;
+                    zwsp.zuV = foo.AnsprZuO - foo.AnsprBand;
                 }
             }
 
-            if ((Nerker1 & STROM_GRENZ) != 0) {
-                if (WirkFall == 0) {
+            if ((foo.Nerker1 & STROM_GRENZ) != 0) {
+                if (foo.WirkFall == 0) {
                     zwsp.aufO = zwsp.aufO + 37;
                 } else {
                     zwsp.zuV = zwsp.zuV - 37;
