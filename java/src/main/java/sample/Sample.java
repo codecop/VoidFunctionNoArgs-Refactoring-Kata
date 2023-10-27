@@ -11,10 +11,17 @@ public class Sample {
 
     private static final SampleZustand zustand = new SampleZustand();
 
+    static class ZwspXxx {
+        public int ZwspAufO;
+        public int ZwspZuV;
+    }
+
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
+
+        ZwspXxx foo = new ZwspXxx();
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
@@ -26,13 +33,11 @@ public class Sample {
             }
 
             // --- this block is only to set "Zwsp*"
-            int ZwspAufO;
-            int ZwspZuV;
-            ZwspAufO = AnsprAufO;
-            ZwspZuV = AnsprZuO;
+            foo.ZwspAufO = AnsprAufO;
+            foo.ZwspZuV = AnsprZuO;
             if (zustand.isDeadzone()) {
-                ZwspAufO = AnsprAufO + AnsprHyst;
-                ZwspZuV = AnsprZuO - AnsprHyst;
+                foo.ZwspAufO = AnsprAufO + AnsprHyst;
+                foo.ZwspZuV = AnsprZuO - AnsprHyst;
 
                 if (
                         ((RegDiff < AnsprZuO) && !zustand.wasUp() &&
@@ -41,30 +46,30 @@ public class Sample {
                                 ((RegDiff > AnsprAufO) && !zustand.wasDown() &&
                                         ((SollwertRev - IstwMax) > AnsprAufO))
                 ) {
-                    ZwspAufO = AnsprAufO + AnsprBand;
-                    ZwspZuV = AnsprZuO - AnsprBand;
+                    foo.ZwspAufO = AnsprAufO + AnsprBand;
+                    foo.ZwspZuV = AnsprZuO - AnsprBand;
                 }
             }
 
             if ((Nerker1 & STROM_GRENZ) != 0) {
                 if (WirkFall == 0) {
-                    ZwspAufO = ZwspAufO + 37;
+                    foo.ZwspAufO = foo.ZwspAufO + 37;
                 } else {
-                    ZwspZuV = ZwspZuV - 37;
+                    foo.ZwspZuV = foo.ZwspZuV - 37;
                 }
             }
             // --- this block is only to set "Zwsp*"
 
-            if (AnsprZuV > ZwspZuV) {
-                AnsprZuV = ZwspZuV;
+            if (AnsprZuV > foo.ZwspZuV) {
+                AnsprZuV = foo.ZwspZuV;
             }
-            if (AnsprAufV > ZwspAufO) {
-                AnsprAufV = ZwspAufO;
+            if (AnsprAufV > foo.ZwspAufO) {
+                AnsprAufV = foo.ZwspAufO;
             }
 
             stellFwd.reset();
 
-            if ((RegDiff >= ZwspZuV) && (RegDiff <= ZwspAufO)) {
+            if ((RegDiff >= foo.ZwspZuV) && (RegDiff <= foo.ZwspAufO)) {
                 nImpuls.setTotzone();
             } else {
                 nImpuls.resetTotzone();
@@ -74,7 +79,7 @@ public class Sample {
             int PraeAufWirk = 0;
             int PraeZuWirk = 0;
 
-            if ((RegDiff >= ZwspZuV) && (RegDiff <= ZwspAufO)) {
+            if ((RegDiff >= foo.ZwspZuV) && (RegDiff <= foo.ZwspAufO)) {
             } else {
                 PraeAufWirk = AnsprAufV;
                 PraeZuWirk = AnsprZuV;
@@ -102,8 +107,8 @@ public class Sample {
                 if (RegDiff > PraeAufWirk) {
                     stellFwd.setAufV();
                 } else {
-                    if (RegDiffSch > ZwspAufO) {
-                        if (RegDiff > ZwspAufO) {
+                    if (RegDiffSch > foo.ZwspAufO) {
+                        if (RegDiff > foo.ZwspAufO) {
                             if (RegDiffSch > AnsprAufV) {
                                 stellFwd.setAufV();
                             } else {

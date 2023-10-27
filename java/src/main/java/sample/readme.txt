@@ -52,4 +52,9 @@ OO related approach for StellFwd, NImpuls, SampleZustand etc.
    * simplify methods, e.g. inline negative methods
 
 FP approach with DAO/type/struct
-1. tbd
+1. create static inner class with wrong name
+2. create struct with fields I want to wrap (local or global), use same names, fields public
+3. instantiate it at beginning of method with short local name "foo"
+4. [large step] for each wrapped field
+   * search and replace all occurrences X with "foo.X"
+   * copy back the end value if needed to global at end of procedure
