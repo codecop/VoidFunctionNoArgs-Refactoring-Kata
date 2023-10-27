@@ -11,30 +11,11 @@ public class Sample {
 
     private static final SampleZustand zustand = new SampleZustand();
 
-    static class Foo {
-        final int AnsprAufO;
-        final int AnsprZuO;
-        final int AnsprBand;
-        final int AnsprHyst;
-        final int SollwertRev;
-        final int Nerker1;
-        final int WirkFall;
-
-        public Foo(int AnsprAufO, int AnsprZuO, int AnsprBand, int AnsprHyst, int SollwertRev, int Nerker1, int WirkFall) {
-            this.AnsprAufO = AnsprAufO;
-            this.AnsprZuO = AnsprZuO;
-            this.AnsprBand = AnsprBand;
-            this.AnsprHyst = AnsprHyst;
-            this.SollwertRev = SollwertRev;
-            this.Nerker1 = Nerker1;
-            this.WirkFall = WirkFall;
-        }
-    }
-
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
+        SampleZwspSource zwspSource = new SampleZwspSource(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
@@ -46,28 +27,27 @@ public class Sample {
             }
 
             // --- this block is only to set "Zwsp*"
-            Foo foo = new Foo(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
             SampleZwspStruct zwsp = new SampleZwspStruct();
-            zwsp.aufO = foo.AnsprAufO;
-            zwsp.zuV = foo.AnsprZuO;
+            zwsp.aufO = zwspSource.ansprAufO;
+            zwsp.zuV = zwspSource.ansprZuO;
             if (zustand.isDeadzone()) {
-                zwsp.aufO = foo.AnsprAufO + foo.AnsprHyst;
-                zwsp.zuV = foo.AnsprZuO - foo.AnsprHyst;
+                zwsp.aufO = zwspSource.ansprAufO + zwspSource.ansprHyst;
+                zwsp.zuV = zwspSource.ansprZuO - zwspSource.ansprHyst;
 
                 if (
-                    ((RegDiff < foo.AnsprZuO) && !zustand.wasUp() &&
-                    ((foo.SollwertRev - IstwMin) > foo.AnsprZuO))
+                    ((RegDiff < zwspSource.ansprZuO) && !zustand.wasUp() &&
+                    ((zwspSource.sollwertRev - IstwMin) > zwspSource.ansprZuO))
                     ||
-                    ((RegDiff > foo.AnsprAufO) && !zustand.wasDown() &&
-                    ((foo.SollwertRev - IstwMax) > foo.AnsprAufO))
+                    ((RegDiff > zwspSource.ansprAufO) && !zustand.wasDown() &&
+                    ((zwspSource.sollwertRev - IstwMax) > zwspSource.ansprAufO))
                 ) {
-                    zwsp.aufO = foo.AnsprAufO + foo.AnsprBand;
-                    zwsp.zuV = foo.AnsprZuO - foo.AnsprBand;
+                    zwsp.aufO = zwspSource.ansprAufO + zwspSource.ansprBand;
+                    zwsp.zuV = zwspSource.ansprZuO - zwspSource.ansprBand;
                 }
             }
 
-            if ((foo.Nerker1 & STROM_GRENZ) != 0) {
-                if (foo.WirkFall == 0) {
+            if ((zwspSource.nerker1 & STROM_GRENZ) != 0) {
+                if (zwspSource.wirkFall == 0) {
                     zwsp.aufO = zwsp.aufO + 37;
                 } else {
                     zwsp.zuV = zwsp.zuV - 37;
