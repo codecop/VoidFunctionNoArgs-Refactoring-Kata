@@ -118,19 +118,7 @@ public class Sample {
             // set for next time
 
             if (PraeAufWirk == AnsprAufV || PraeZuWirk == AnsprZuV) {
-                // --- this block is only to set the "Ist*" for next time
-                if (nImpuls.isTotzone()) {
-                    if (StellIstRev < istw.min) {
-                        istw.min = StellIstRev;
-                    }
-                    if (StellIstRev > istw.max) {
-                        istw.max = StellIstRev;
-                    }
-                } else {
-                    istw.max = PERCENT_MIN;
-                    istw.min = PERCENT_MAX;
-                }
-                // --- this block is only to set the "Ist*"
+                SampleIstwStruct.istwSetFrom(istw, nImpuls.isTotzone(), StellIstRev);
             }
 
             zustand.setFrom(stellFwd, nImpuls);
