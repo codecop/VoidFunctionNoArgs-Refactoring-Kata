@@ -58,3 +58,7 @@ FP approach with DAO/type/struct
 4. [large step] for each wrapped field
    * search and replace all occurrences X with "foo.X"
    * copy back the end value if needed to global at end of procedure
+5. reduce scope of new class instance
+6. clean up struct
+   * make top level/other place
+   * rename good class name, rename good field name, rename good local name
