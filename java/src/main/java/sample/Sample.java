@@ -6,16 +6,14 @@ import static sample.Globals.*;
 public class Sample {
 
     // private static variables
-    private static int IstwMin;
-    private static int IstwMax;
-
+    private static final SampleIstwStruct istw = new SampleIstwStruct();
     private static final SampleZustand zustand = new SampleZustand();
 
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
-        SampleZwspSource zwspSource = new SampleZwspSource(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
+        SampleZwspSourceStruct zwspSource = new SampleZwspSourceStruct(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
@@ -36,10 +34,10 @@ public class Sample {
 
                 if (
                     ((RegDiff < zwspSource.ansprZuO) && !zustand.wasUp() &&
-                    ((zwspSource.sollwertRev - IstwMin) > zwspSource.ansprZuO))
+                    ((zwspSource.sollwertRev - istw.min) > zwspSource.ansprZuO))
                     ||
                     ((RegDiff > zwspSource.ansprAufO) && !zustand.wasDown() &&
-                    ((zwspSource.sollwertRev - IstwMax) > zwspSource.ansprAufO))
+                    ((zwspSource.sollwertRev - istw.max) > zwspSource.ansprAufO))
                 ) {
                     zwsp.aufO = zwspSource.ansprAufO + zwspSource.ansprBand;
                     zwsp.zuV = zwspSource.ansprZuO - zwspSource.ansprBand;
@@ -122,15 +120,15 @@ public class Sample {
             if (PraeAufWirk == AnsprAufV || PraeZuWirk == AnsprZuV) {
                 // --- this block is only to set the "Ist*" for next time
                 if (nImpuls.isTotzone()) {
-                    if (StellIstRev < IstwMin) {
-                        IstwMin = StellIstRev;
+                    if (StellIstRev < istw.min) {
+                        istw.min = StellIstRev;
                     }
-                    if (StellIstRev > IstwMax) {
-                        IstwMax = StellIstRev;
+                    if (StellIstRev > istw.max) {
+                        istw.max = StellIstRev;
                     }
                 } else {
-                    IstwMax = PERCENT_MIN;
-                    IstwMin = PERCENT_MAX;
+                    istw.max = PERCENT_MIN;
+                    istw.min = PERCENT_MAX;
                 }
                 // --- this block is only to set the "Ist*"
             }
