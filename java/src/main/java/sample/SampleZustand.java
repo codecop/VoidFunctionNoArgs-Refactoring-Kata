@@ -28,9 +28,9 @@ class SampleZustand {
         return previous() == STATE_MOVE_UP;
     }
 
-    void setFrom(StellFwd stellFwd, NImpuls nImpuls) {
+    void setFrom(StellFwd stellFwd, boolean totzone) {
         int newValue = current();
-        if (nImpuls.isTotzone()) {
+        if (totzone) {
             newValue = STATE_WITHIN_DEADZONE;
         }
         if (stellFwd.isZu()) {

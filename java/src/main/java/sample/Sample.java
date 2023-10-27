@@ -6,8 +6,7 @@ import static sample.Globals.*;
 public class Sample {
 
     // private static variables
-    private static final SampleIstwStruct istw = new SampleIstwStruct();
-    private static final SampleZustand zustand = new SampleZustand();
+    private static final SampleStruct self = new SampleStruct();
 
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
@@ -24,7 +23,7 @@ public class Sample {
                 NRegFkt |= TOTZONE_ALT;
             }
 
-            SampleZwspStruct zwsp = ZwspSourceStruct.create(zwspSource, zustand, RegDiff, istw);
+            SampleZwspStruct zwsp = SampleZwspStruct.create(zwspSource, self, RegDiff);
 
             if (AnsprZuV > zwsp.zuV) {
                 AnsprZuV = zwsp.zuV;
@@ -91,10 +90,10 @@ public class Sample {
             // set for next time
 
             if (PraeAufWirk == AnsprAufV || PraeZuWirk == AnsprZuV) {
-                SampleIstwStruct.istwSetFrom(istw, nImpuls.isTotzone(), StellIstRev);
+                SampleIstwStruct.istwSetFrom(self.istw, nImpuls.isTotzone(), StellIstRev);
             }
 
-            zustand.setFrom(stellFwd, nImpuls);
+            self.zustand.setFrom(stellFwd, nImpuls.isTotzone());
         }
 
         Globals.StellFwd = stellFwd.value;

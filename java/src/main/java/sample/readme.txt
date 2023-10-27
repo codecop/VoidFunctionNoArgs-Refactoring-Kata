@@ -52,6 +52,7 @@ OO related approach for StellFwd, NImpuls, SampleZustand etc.
    * simplify methods, e.g. inline negative methods
 
 FP approach with DAO/type/struct
+0. choose struct which is a leaf in usage and does not use other structs/data
 1. create static inner class with wrong name
 2. create struct with fields I want to wrap (local or global), use same names, fields public
    * if fields are only set, make them final and set in constructor/creation
@@ -67,7 +68,11 @@ FP approach with DAO/type/struct
      make local name like the prefix, mane field names the suffixes if it had prefix
 7. extract function which will also use the struct
    * make struct first parameter, named self
+8. recurse
+   * maybe create nested structs
+   * simplify calls using the nested structs
 
 * Zwsp is easy as it is local.
   * But I cannot extract it because it still uses globals.
   * all initial values get an extra struct
+  * recurse until it can move as a whole.
