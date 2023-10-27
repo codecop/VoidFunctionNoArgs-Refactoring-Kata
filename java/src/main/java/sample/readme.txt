@@ -76,3 +76,6 @@ FP approach with DAO/type/struct
   * But I cannot extract it because it still uses globals.
   * all initial values get an extra struct
   * recurse until it can move as a whole.
+  * Istw came before, Zustand was already done
+  * this is more interlinked as I want to extract methods later, not too early
+  * 60'
