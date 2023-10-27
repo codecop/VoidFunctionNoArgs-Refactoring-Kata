@@ -7,10 +7,11 @@ import static sample.Constants.STROM_GRENZ;
  */
 class SampleZwspStruct {
 
-    public int aufO;
-    public int zuV;
+    int aufO;
+    int zuV;
 
-    public static SampleZwspStruct create(ZwspSourceStruct zwspSource, SampleStruct sample, int regDiff) {
+    // pure functions
+    static SampleZwspStruct create(ZwspSourceStruct zwspSource, SampleStruct sample, int regDiff) {
         SampleZwspStruct zwsp = new SampleZwspStruct();
         zwsp.aufO = zwspSource.ansprAufO;
         zwsp.zuV = zwspSource.ansprZuO;

@@ -4,11 +4,11 @@ import static sample.Constants.PERCENT_MAX;
 import static sample.Constants.PERCENT_MIN;
 
 class SampleIstwStruct {
-    public int min;
-    public int max;
+    int min;
+    int max;
 
     // pure functions
-    public static void istwSetFrom(SampleIstwStruct self, boolean totzone, int stellIstRev) {
+    static void istwSetFrom(SampleIstwStruct self, boolean totzone, int stellIstRev) {
         if (totzone) {
             if (stellIstRev < self.min) {
                 self.min = stellIstRev;

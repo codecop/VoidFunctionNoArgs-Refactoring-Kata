@@ -5,7 +5,7 @@ import static sample.Constants.C_IBS_OK;
 import static sample.Constants.N_AUTOMATIK;
 import static sample.Constants.N_VALVE_DIAG;
 
-public class AllKindOfControls {
+class AllKindOfControls {
     private final int autoIbsOk;
     private final int regMode;
     private final int binSteuer;
@@ -16,7 +16,7 @@ public class AllKindOfControls {
         this.binSteuer = binSteuer;
     }
 
-    public boolean doNotTouchIt() {
+    boolean doNotTouchIt() {
         return (autoIbsOk == C_IBS_OK) &&
                 ((regMode == N_AUTOMATIK) || (regMode == N_VALVE_DIAG)) &&
                 ((binSteuer & BO_REGLER) != 0);

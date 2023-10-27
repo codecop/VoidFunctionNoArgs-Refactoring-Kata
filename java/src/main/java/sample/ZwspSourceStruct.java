@@ -1,13 +1,13 @@
 package sample;
 
 class ZwspSourceStruct {
-    public final int ansprAufO;
-    public final int ansprZuO;
-    public final int ansprBand;
-    public final int ansprHyst;
-    public final int sollwertRev;
-    public final int nerker1;
-    public final int wirkFall;
+    final int ansprAufO;
+    final int ansprZuO;
+    final int ansprBand;
+    final int ansprHyst;
+    final int sollwertRev;
+    final int nerker1;
+    final int wirkFall;
 
     public ZwspSourceStruct(int ansprAufO, int ansprZuO, int ansprBand, int ansprHyst, int sollwertRev, int nerker1, int wirkFall) {
         this.ansprAufO = ansprAufO;
