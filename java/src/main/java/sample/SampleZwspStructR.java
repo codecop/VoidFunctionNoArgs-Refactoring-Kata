@@ -8,15 +8,12 @@ import static sample.Constants.STROM_GRENZ;
  */
 class SampleZwspStructR {
 
-    final int regDiff;
-
     final int aufO;
     final int zuV;
 
-    SampleZwspStructR(int aufO, int zuV, int regDiff) {
+    SampleZwspStructR(int aufO, int zuV) {
         this.aufO = aufO;
         this.zuV = zuV;
-        this.regDiff = regDiff;
     }
 
     // pure functions
@@ -46,10 +43,10 @@ class SampleZwspStructR {
                 zuV = zuV - 37;
             }
         }
-        return new SampleZwspStructR(aufO, zuV, regDiff);
+        return new SampleZwspStructR(aufO, zuV);
     }
 
-    static boolean isAroundRegDiff(SampleZwspStructR zwsp) {
-        return (zwsp.regDiff >= zwsp.zuV) && (zwsp.regDiff <= zwsp.aufO);
+    static boolean isAroundRegDiff(SampleZwspStructR zwsp, int regDiff) {
+        return (regDiff >= zwsp.zuV) && (regDiff <= zwsp.aufO);
     }
 }

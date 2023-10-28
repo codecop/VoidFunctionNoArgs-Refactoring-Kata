@@ -66,6 +66,7 @@ FP approach with DAO/type/struct
    * make top level/other place
    * rename good class name, rename good field name (value), rename good local name
      make local name like the prefix, mane field names the suffixes if it had prefix
+   * Add a copy of const global to another struct for simpler methods. Is this good?
 7. extract function which will also use the struct
    * usually a create function
    * make struct first parameter, named self

@@ -9,13 +9,8 @@ public class Sample {
     private static final SampleStruct self = new SampleStruct();
 
     static class PraeWirkStruct {
-        final int regDiff;
         int auf;
         int zu;
-
-        PraeWirkStruct(int regDiff) {
-            this.regDiff = regDiff;
-        }
     }
 
     public static void theFunctionToTest() {
@@ -34,7 +29,7 @@ public class Sample {
 
             SampleZwspStructR zwsp = SampleZwspStructR.create(zwspSource, self, RegDiff);
 
-            boolean aroundRegDiff = SampleZwspStructR.isAroundRegDiff(zwsp);
+            boolean aroundRegDiff = SampleZwspStructR.isAroundRegDiff(zwsp, RegDiff);
             if (aroundRegDiff) {
                 nImpuls.setTotzone();
             } else {
@@ -43,14 +38,14 @@ public class Sample {
 
             AnsprStruct.limitWithZwsp(anspr, zwsp);
 
-            PraeWirkStruct praeWirk = createFrom(anspr, !aroundRegDiff, nImpuls, RegDiff);
+            PraeWirkStruct praeWirk = createFrom(anspr, !aroundRegDiff, nImpuls);
 
             // --- this block is only to set the stellFwd "result"
             stellFwd.reset();
-            if (praeWirk.regDiff < praeWirk.zu) {
+            if (RegDiff < praeWirk.zu) {
                 stellFwd.setZuV();
             } else {
-                if (praeWirk.regDiff > praeWirk.auf) {
+                if (RegDiff > praeWirk.auf) {
                     stellFwd.setAufV();
                 } else {
                     if (RegDiffSch > zwsp.aufO) {
@@ -81,8 +76,8 @@ public class Sample {
         Globals.AnsprZuV = anspr.zuV;
     }
 
-    static PraeWirkStruct createFrom(AnsprStruct anspr, boolean useAnsprAsBase, NImpuls nImpuls, int regDiff) {
-        PraeWirkStruct praeWirk = new PraeWirkStruct(regDiff);
+    static PraeWirkStruct createFrom(AnsprStruct anspr, boolean useAnsprAsBase, NImpuls nImpuls) {
+        PraeWirkStruct praeWirk = new PraeWirkStruct();
         if (useAnsprAsBase) {
             praeWirk.auf = anspr.aufV;
             praeWirk.zu = anspr.zuV;
