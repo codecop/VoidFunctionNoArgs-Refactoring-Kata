@@ -8,19 +8,26 @@ public class Sample {
     // private static variables
     private static final SampleStruct self = new SampleStruct();
 
+    static class NRegFktStruct {
+        int NRegFkt;
+    }
+
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
         ZwspSourceStruct zwspSource = new ZwspSourceStruct(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
 
+        NRegFktStruct foo = new NRegFktStruct();
+        foo.NRegFkt = NRegFkt;
+
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
         } else {
             if (!nImpuls.isTotzone()) {
-                NRegFkt &= ~(TOTZONE_ALT);
+                foo.NRegFkt &= ~(TOTZONE_ALT);
             } else {
-                NRegFkt |= TOTZONE_ALT;
+                foo.NRegFkt |= TOTZONE_ALT;
             }
 
             SampleZwspStruct zwsp = SampleZwspStruct.create(zwspSource, self, RegDiff);
@@ -98,6 +105,7 @@ public class Sample {
 
         Globals.StellFwd = stellFwd.value;
         Globals.NImpuls = nImpuls.value;
+        Globals.NRegFkt = foo.NRegFkt;
     }
 
 }

@@ -79,3 +79,6 @@ FP approach with DAO/type/struct
   * Istw came before, Zustand was already done
   * this is more interlinked as I want to extract methods later, not too early
   * 60'
+
+Ok, this is getting boring. Where does it end. Till now there are 4 global wrapper objects
+and 4 structs, three for the Sample's internal data. Let's create one or two more structs.
