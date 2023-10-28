@@ -9,8 +9,13 @@ public class Sample {
     private static final SampleStruct self = new SampleStruct();
 
     static class PraeWirkStruct {
+        final int regDiff;
         int auf;
         int zu;
+
+        PraeWirkStruct(int regDiff) {
+            this.regDiff = regDiff;
+        }
     }
 
     public static void theFunctionToTest() {
@@ -38,14 +43,14 @@ public class Sample {
 
             AnsprStruct.limitWithZwsp(anspr, zwsp);
 
-            PraeWirkStruct praeWirk = createFrom(anspr, !aroundRegDiff, nImpuls);
+            PraeWirkStruct praeWirk = createFrom(anspr, !aroundRegDiff, nImpuls, RegDiff);
 
             // --- this block is only to set the stellFwd "result"
             stellFwd.reset();
-            if (RegDiff < praeWirk.zu) {
+            if (praeWirk.regDiff < praeWirk.zu) {
                 stellFwd.setZuV();
             } else {
-                if (RegDiff > praeWirk.auf) {
+                if (praeWirk.regDiff > praeWirk.auf) {
                     stellFwd.setAufV();
                 } else {
                     if (RegDiffSch > zwsp.aufO) {
@@ -76,8 +81,8 @@ public class Sample {
         Globals.AnsprZuV = anspr.zuV;
     }
 
-    static PraeWirkStruct createFrom(AnsprStruct anspr, boolean useAnsprAsBase, NImpuls nImpuls) {
-        PraeWirkStruct praeWirk = new PraeWirkStruct();
+    static PraeWirkStruct createFrom(AnsprStruct anspr, boolean useAnsprAsBase, NImpuls nImpuls, int regDiff) {
+        PraeWirkStruct praeWirk = new PraeWirkStruct(regDiff);
         if (useAnsprAsBase) {
             praeWirk.auf = anspr.aufV;
             praeWirk.zu = anspr.zuV;
