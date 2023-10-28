@@ -55,19 +55,22 @@ FP approach with DAO/type/struct
 0. choose struct which is a leaf in usage and does not use other structs/data
 1. create static inner class with wrong name
 2. create struct with fields I want to wrap (local or global), use same names, fields public
-   * if fields are only set, make them final and set in constructor/creation
+   * (optional) if fields are only set, make them final and set in constructor/creation
 3. instantiate it at beginning of method with short local name "foo"
 4. [large step] for each wrapped field
    * search and replace all occurrences X with "foo.X"
-   * copy back the end value if needed to global at end of procedure
+   * copy back the end value if needed to global at end of procedure "X = foo.X;"
    * use mark occurrences to see usage, search for usage in end (verify all replaced)
-5. reduce scope of new class instance
+5. reduce scope of new class instance inside method (move up/down)
 6. clean up struct
    * make top level/other place
-   * rename good class name, rename good field name, rename good local name
+   * rename good class name, rename good field name (value), rename good local name
      make local name like the prefix, mane field names the suffixes if it had prefix
 7. extract function which will also use the struct
+   * usually a create function
    * make struct first parameter, named self
+   * iterate on names of these functions
+   * move functions as static into module of type
 8. recurse
    * maybe create nested structs
    * simplify calls using the nested structs
@@ -82,3 +85,7 @@ FP approach with DAO/type/struct
 
 Ok, this is getting boring. Where does it end. Till now there are 4 global wrapper objects
 and 4 structs, three for the Sample's internal data. Let's create one or two more structs.
+
+* NRegFkt is a simple out, one time usage
+  * quick win
+  * 10'

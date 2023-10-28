@@ -8,27 +8,17 @@ public class Sample {
     // private static variables
     private static final SampleStruct self = new SampleStruct();
 
-    static class NRegFktStruct {
-        int NRegFkt;
-    }
-
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
         StellFwd stellFwd = new StellFwd(Globals.StellFwd);
         NImpuls nImpuls = new NImpuls(Globals.NImpuls);
+        NRegFktStruct nRegFkt = NRegFktStruct.create(NRegFkt);
         ZwspSourceStruct zwspSource = new ZwspSourceStruct(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
-
-        NRegFktStruct foo = new NRegFktStruct();
-        foo.NRegFkt = NRegFkt;
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
         } else {
-            if (!nImpuls.isTotzone()) {
-                foo.NRegFkt &= ~(TOTZONE_ALT);
-            } else {
-                foo.NRegFkt |= TOTZONE_ALT;
-            }
+            NRegFktStruct.setTotzoneAltIfNeeded(nRegFkt, nImpuls);
 
             SampleZwspStruct zwsp = SampleZwspStruct.create(zwspSource, self, RegDiff);
 
@@ -95,17 +85,15 @@ public class Sample {
             // --- this block is only to set the stellFwd "result"
 
             // set for next time
-
             if (PraeAufWirk == AnsprAufV || PraeZuWirk == AnsprZuV) {
                 SampleIstwStruct.istwSetFrom(self.istw, nImpuls.isTotzone(), StellIstRev);
             }
-
             self.zustand.setFrom(stellFwd, nImpuls.isTotzone());
         }
 
         Globals.StellFwd = stellFwd.value;
         Globals.NImpuls = nImpuls.value;
-        Globals.NRegFkt = foo.NRegFkt;
+        Globals.NRegFkt = nRegFkt.value;
     }
 
 }
