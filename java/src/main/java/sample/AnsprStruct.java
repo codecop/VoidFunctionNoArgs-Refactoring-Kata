@@ -11,7 +11,7 @@ class AnsprStruct {
         return anspr;
     }
 
-    static void limitWithZwsp(AnsprStruct anspr, SampleZwspStructR zwsp) {
+    static void setLimitWithZwsp(AnsprStruct anspr, SampleZwspStructR zwsp) {
         if (anspr.zuV > zwsp.zuV) {
             anspr.zuV = zwsp.zuV;
         }

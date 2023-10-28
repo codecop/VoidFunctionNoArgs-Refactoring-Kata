@@ -91,3 +91,7 @@ and 4 structs, three for the Sample's internal data. Let's create one or two mor
 * NRegFkt is a simple out, one time usage
   * quick win
   * 10'
+
+* Abspr and PraeWirk are mixed, need both
+  * now (in the end?) the main code looks at least understandable.
+  * 45'

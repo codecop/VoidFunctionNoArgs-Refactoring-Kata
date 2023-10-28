@@ -8,7 +8,7 @@ class SampleIstwStruct {
     int max;
 
     // pure functions
-    static void istwSetFrom(SampleIstwStruct self, boolean totzone, int stellIstRev) {
+    static void setFrom(SampleIstwStruct self, boolean totzone, int stellIstRev) {
         if (totzone) {
             if (stellIstRev < self.min) {
                 self.min = stellIstRev;

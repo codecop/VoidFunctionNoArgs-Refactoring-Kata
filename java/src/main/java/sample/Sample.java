@@ -30,35 +30,15 @@ public class Sample {
                 nImpuls.resetTotzone();
             }
 
-            AnsprStruct.limitWithZwsp(anspr, zwsp);
+            AnsprStruct.setLimitWithZwsp(anspr, zwsp);
 
             PraeWirkStructR praeWirk = PraeWirkStructR.createFrom(anspr, !aroundRegDiff, nImpuls);
 
-            // --- this block is only to set the stellFwd "result"
-            stellFwd.reset();
-            if (RegDiff < praeWirk.zu) {
-                stellFwd.setZuV();
-            } else {
-                if (RegDiff > praeWirk.auf) {
-                    stellFwd.setAufV();
-                } else {
-                    if (RegDiffSch > zwsp.aufO) {
-                        if (RegDiff > zwsp.aufO) {
-                            if (RegDiffSch > anspr.aufV) {
-                                stellFwd.setAufV();
-                            } else {
-                                stellFwd.setAufO();
-                                // this is not covered!
-                            }
-                        }
-                    }
-                }
-            }
-            // --- this block is only to set the stellFwd "result"
+            setStellFwd(stellFwd, praeWirk, zwsp, anspr);
 
             // set for next time
             if (PraeWirkStructR.equalsAnspr(praeWirk, anspr)) {
-                SampleIstwStruct.istwSetFrom(self.istw, nImpuls.isTotzone(), StellIstRev);
+                SampleIstwStruct.setFrom(self.istw, nImpuls.isTotzone(), StellIstRev);
             }
             self.zustand.setFrom(stellFwd, nImpuls.isTotzone());
         }
@@ -68,6 +48,28 @@ public class Sample {
         Globals.NRegFkt = nRegFkt.value;
         Globals.AnsprAufV = anspr.aufV;
         Globals.AnsprZuV = anspr.zuV;
+    }
+
+    private static void setStellFwd(StellFwd stellFwd, PraeWirkStructR praeWirk, SampleZwspStructR zwsp, AnsprStruct anspr) {
+        stellFwd.reset();
+        if (RegDiff < praeWirk.zu) {
+            stellFwd.setZuV();
+        } else {
+            if (RegDiff > praeWirk.auf) {
+                stellFwd.setAufV();
+            } else {
+                if (RegDiffSch > zwsp.aufO) {
+                    if (RegDiff > zwsp.aufO) {
+                        if (RegDiffSch > anspr.aufV) {
+                            stellFwd.setAufV();
+                        } else {
+                            stellFwd.setAufO();
+                            // this is not covered!
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }
