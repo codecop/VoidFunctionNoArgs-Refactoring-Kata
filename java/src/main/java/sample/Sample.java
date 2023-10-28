@@ -8,9 +8,14 @@ public class Sample {
     // private static variables
     private static final SampleStruct self = new SampleStruct();
 
-    static class PraeWirk {
+    static class PraeWirkStruct {
         int PraeAufWirk;
         int PraeZuWirk;
+    }
+
+    static class AnsprStruct {
+        int AnsprZuV;
+        int AnsprAufV;
     }
 
     public static void theFunctionToTest() {
@@ -19,6 +24,9 @@ public class Sample {
         NImpuls nImpuls = new NImpuls(NImpuls);
         NRegFktStruct nRegFkt = NRegFktStruct.create(NRegFkt);
         ZwspSourceStruct zwspSource = new ZwspSourceStruct(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
+        AnsprStruct foo = new AnsprStruct();
+        foo.AnsprAufV = AnsprAufV;
+        foo.AnsprZuV = AnsprZuV;
 
         if (allKindOfControls.doNotTouchIt()) {
             stellFwd.reset();
@@ -34,18 +42,18 @@ public class Sample {
                 nImpuls.resetTotzone();
             }
 
-            if (AnsprZuV > zwsp.zuV) {
-                AnsprZuV = zwsp.zuV;
+            if (foo.AnsprZuV > zwsp.zuV) {
+                foo.AnsprZuV = zwsp.zuV;
             }
-            if (AnsprAufV > zwsp.aufO) {
-                AnsprAufV = zwsp.aufO;
+            if (foo.AnsprAufV > zwsp.aufO) {
+                foo.AnsprAufV = zwsp.aufO;
             }
 
             // --- this block is only to set "praeWirk"
-            PraeWirk praeWirk = new PraeWirk();
+            PraeWirkStruct praeWirk = new PraeWirkStruct();
             if (!SampleZwspStruct.isAroundRegDiff(zwsp)) {
-                praeWirk.PraeAufWirk = AnsprAufV;
-                praeWirk.PraeZuWirk = AnsprZuV;
+                praeWirk.PraeAufWirk = foo.AnsprAufV;
+                praeWirk.PraeZuWirk = foo.AnsprZuV;
             }
             if (nImpuls.isTyGrenz1()) {
                 praeWirk.PraeAufWirk = PRAE_WIRK_1;
@@ -55,11 +63,11 @@ public class Sample {
                 praeWirk.PraeAufWirk = PRAE_WIRK_2;
                 praeWirk.PraeZuWirk = -PRAE_WIRK_2;
             }
-            if (AnsprAufV > praeWirk.PraeAufWirk) {
-                praeWirk.PraeAufWirk = AnsprAufV;
+            if (foo.AnsprAufV > praeWirk.PraeAufWirk) {
+                praeWirk.PraeAufWirk = foo.AnsprAufV;
             }
-            if (AnsprZuV < praeWirk.PraeZuWirk) {
-                praeWirk.PraeZuWirk = AnsprZuV;
+            if (foo.AnsprZuV < praeWirk.PraeZuWirk) {
+                praeWirk.PraeZuWirk = foo.AnsprZuV;
             }
             // --- this block is only to set "praeWirk"
 
@@ -73,7 +81,7 @@ public class Sample {
                 } else {
                     if (RegDiffSch > zwsp.aufO) {
                         if (RegDiff > zwsp.aufO) {
-                            if (RegDiffSch > AnsprAufV) {
+                            if (RegDiffSch > foo.AnsprAufV) {
                                 stellFwd.setAufV();
                             } else {
                                 stellFwd.setAufO();
@@ -86,7 +94,7 @@ public class Sample {
             // --- this block is only to set the stellFwd "result"
 
             // set for next time
-            if (praeWirk.PraeAufWirk == AnsprAufV || praeWirk.PraeZuWirk == AnsprZuV) {
+            if (praeWirk.PraeAufWirk == foo.AnsprAufV || praeWirk.PraeZuWirk == foo.AnsprZuV) {
                 SampleIstwStruct.istwSetFrom(self.istw, nImpuls.isTotzone(), StellIstRev);
             }
             self.zustand.setFrom(stellFwd, nImpuls.isTotzone());
@@ -95,6 +103,8 @@ public class Sample {
         Globals.StellFwd = stellFwd.value;
         Globals.NImpuls = nImpuls.value;
         Globals.NRegFkt = nRegFkt.value;
+        Globals.AnsprAufV = foo.AnsprAufV;
+        Globals.AnsprZuV = foo.AnsprZuV;
     }
 
 }
