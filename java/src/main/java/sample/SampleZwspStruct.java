@@ -7,12 +7,18 @@ import static sample.Constants.STROM_GRENZ;
  */
 class SampleZwspStruct {
 
+    final int regDiff;
+
     int aufO;
     int zuV;
 
+    SampleZwspStruct(int regDiff) {
+        this.regDiff = regDiff;
+    }
+
     // pure functions
     static SampleZwspStruct create(ZwspSourceStruct zwspSource, SampleStruct sample, int regDiff) {
-        SampleZwspStruct zwsp = new SampleZwspStruct();
+        SampleZwspStruct zwsp = new SampleZwspStruct(regDiff);
         zwsp.aufO = zwspSource.ansprAufO;
         zwsp.zuV = zwspSource.ansprZuO;
         if (sample.zustand.isDeadzone()) {
@@ -41,7 +47,7 @@ class SampleZwspStruct {
         return zwsp;
     }
 
-    static boolean isAround(SampleZwspStruct zwsp, int regDiff) {
-        return (regDiff >= zwsp.zuV) && (regDiff <= zwsp.aufO);
+    static boolean isAroundRegDiff(SampleZwspStruct zwsp) {
+        return (zwsp.regDiff >= zwsp.zuV) && (zwsp.regDiff <= zwsp.aufO);
     }
 }
