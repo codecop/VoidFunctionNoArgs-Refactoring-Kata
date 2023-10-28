@@ -9,8 +9,8 @@ public class Sample {
     private static final SampleStruct self = new SampleStruct();
 
     static class PraeWirkStruct {
-        int PraeAufWirk;
-        int PraeZuWirk;
+        int auf;
+        int zu;
     }
 
     public static void theFunctionToTest() {
@@ -29,7 +29,8 @@ public class Sample {
 
             SampleZwspStructR zwsp = SampleZwspStructR.create(zwspSource, self, RegDiff);
 
-            if (SampleZwspStructR.isAroundRegDiff(zwsp)) {
+            boolean aroundRegDiff = SampleZwspStructR.isAroundRegDiff(zwsp);
+            if (aroundRegDiff) {
                 nImpuls.setTotzone();
             } else {
                 nImpuls.resetTotzone();
@@ -37,16 +38,14 @@ public class Sample {
 
             AnsprStruct.limitWithZwsp(anspr, zwsp);
 
-            // --- this block is only to set "praeWirk"
-            PraeWirkStruct praeWirk = create(nImpuls, anspr, !SampleZwspStructR.isAroundRegDiff(zwsp));
-            // --- this block is only to set "praeWirk"
+            PraeWirkStruct praeWirk = createFrom(anspr, !aroundRegDiff, nImpuls);
 
             // --- this block is only to set the stellFwd "result"
             stellFwd.reset();
-            if (RegDiff < praeWirk.PraeZuWirk) {
+            if (RegDiff < praeWirk.zu) {
                 stellFwd.setZuV();
             } else {
-                if (RegDiff > praeWirk.PraeAufWirk) {
+                if (RegDiff > praeWirk.auf) {
                     stellFwd.setAufV();
                 } else {
                     if (RegDiffSch > zwsp.aufO) {
@@ -64,7 +63,7 @@ public class Sample {
             // --- this block is only to set the stellFwd "result"
 
             // set for next time
-            if (praeWirk.PraeAufWirk == anspr.aufV || praeWirk.PraeZuWirk == anspr.zuV) {
+            if (equalsAnspr(praeWirk, anspr)) {
                 SampleIstwStruct.istwSetFrom(self.istw, nImpuls.isTotzone(), StellIstRev);
             }
             self.zustand.setFrom(stellFwd, nImpuls.isTotzone());
@@ -77,27 +76,31 @@ public class Sample {
         Globals.AnsprZuV = anspr.zuV;
     }
 
-    static PraeWirkStruct create(NImpuls nImpuls, AnsprStruct anspr, boolean baseIt) {
+    static PraeWirkStruct createFrom(AnsprStruct anspr, boolean useAnsprAsBase, NImpuls nImpuls) {
         PraeWirkStruct praeWirk = new PraeWirkStruct();
-        if (baseIt) {
-            praeWirk.PraeAufWirk = anspr.aufV;
-            praeWirk.PraeZuWirk = anspr.zuV;
+        if (useAnsprAsBase) {
+            praeWirk.auf = anspr.aufV;
+            praeWirk.zu = anspr.zuV;
         }
         if (nImpuls.isTyGrenz1()) {
-            praeWirk.PraeAufWirk = PRAE_WIRK_1;
-            praeWirk.PraeZuWirk = -PRAE_WIRK_1;
+            praeWirk.auf = PRAE_WIRK_1;
+            praeWirk.zu = -PRAE_WIRK_1;
         }
         if (nImpuls.isTyGrenz2()) {
-            praeWirk.PraeAufWirk = PRAE_WIRK_2;
-            praeWirk.PraeZuWirk = -PRAE_WIRK_2;
+            praeWirk.auf = PRAE_WIRK_2;
+            praeWirk.zu = -PRAE_WIRK_2;
         }
-        if (anspr.aufV > praeWirk.PraeAufWirk) {
-            praeWirk.PraeAufWirk = anspr.aufV;
+        if (anspr.aufV > praeWirk.auf) {
+            praeWirk.auf = anspr.aufV;
         }
-        if (anspr.zuV < praeWirk.PraeZuWirk) {
-            praeWirk.PraeZuWirk = anspr.zuV;
+        if (anspr.zuV < praeWirk.zu) {
+            praeWirk.zu = anspr.zuV;
         }
         return praeWirk;
+    }
+
+    static boolean equalsAnspr(PraeWirkStruct praeWirk, AnsprStruct anspr) {
+        return praeWirk.auf == anspr.aufV || praeWirk.zu == anspr.zuV;
     }
 
 }
