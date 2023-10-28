@@ -40,4 +40,8 @@ class SampleZwspStruct {
         }
         return zwsp;
     }
+
+    static boolean isAround(SampleZwspStruct zwsp, int regDiff) {
+        return (regDiff >= zwsp.zuV) && (regDiff <= zwsp.aufO);
+    }
 }

@@ -10,8 +10,8 @@ public class Sample {
 
     public static void theFunctionToTest() {
         AllKindOfControls allKindOfControls = new AllKindOfControls(AutoIbsOk, RegMode, BinSteuer);
-        StellFwd stellFwd = new StellFwd(Globals.StellFwd);
-        NImpuls nImpuls = new NImpuls(Globals.NImpuls);
+        StellFwd stellFwd = new StellFwd(StellFwd);
+        NImpuls nImpuls = new NImpuls(NImpuls);
         NRegFktStruct nRegFkt = NRegFktStruct.create(NRegFkt);
         ZwspSourceStruct zwspSource = new ZwspSourceStruct(AnsprAufO, AnsprZuO, AnsprBand, AnsprHyst, SollwertRev, Nerker1, WirkFall);
 
@@ -31,7 +31,7 @@ public class Sample {
 
             stellFwd.reset();
 
-            if ((RegDiff >= zwsp.zuV) && (RegDiff <= zwsp.aufO)) {
+            if (SampleZwspStruct.isAround(zwsp, RegDiff)) {
                 nImpuls.setTotzone();
             } else {
                 nImpuls.resetTotzone();
@@ -41,7 +41,7 @@ public class Sample {
             int PraeAufWirk = 0;
             int PraeZuWirk = 0;
 
-            if ((RegDiff >= zwsp.zuV) && (RegDiff <= zwsp.aufO)) {
+            if (SampleZwspStruct.isAround(zwsp, RegDiff)) {
                 // empty for now
             } else {
                 PraeAufWirk = AnsprAufV;
