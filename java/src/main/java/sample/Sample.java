@@ -1,17 +1,11 @@
 package sample;
 
-import static sample.Constants.*;
 import static sample.Globals.*;
 
 public class Sample {
 
     // private static variables
     private static final SampleStruct self = new SampleStruct();
-
-    static class PraeWirkStruct {
-        int auf;
-        int zu;
-    }
 
     public static void theFunctionToTest() {
         AllKindOfControlsR allKindOfControls = new AllKindOfControlsR(AutoIbsOk, RegMode, BinSteuer);
@@ -38,7 +32,7 @@ public class Sample {
 
             AnsprStruct.limitWithZwsp(anspr, zwsp);
 
-            PraeWirkStruct praeWirk = createFrom(anspr, !aroundRegDiff, nImpuls);
+            PraeWirkStructR praeWirk = PraeWirkStructR.createFrom(anspr, !aroundRegDiff, nImpuls);
 
             // --- this block is only to set the stellFwd "result"
             stellFwd.reset();
@@ -63,7 +57,7 @@ public class Sample {
             // --- this block is only to set the stellFwd "result"
 
             // set for next time
-            if (equalsAnspr(praeWirk, anspr)) {
+            if (PraeWirkStructR.equalsAnspr(praeWirk, anspr)) {
                 SampleIstwStruct.istwSetFrom(self.istw, nImpuls.isTotzone(), StellIstRev);
             }
             self.zustand.setFrom(stellFwd, nImpuls.isTotzone());
@@ -74,33 +68,6 @@ public class Sample {
         Globals.NRegFkt = nRegFkt.value;
         Globals.AnsprAufV = anspr.aufV;
         Globals.AnsprZuV = anspr.zuV;
-    }
-
-    static PraeWirkStruct createFrom(AnsprStruct anspr, boolean useAnsprAsBase, NImpuls nImpuls) {
-        PraeWirkStruct praeWirk = new PraeWirkStruct();
-        if (useAnsprAsBase) {
-            praeWirk.auf = anspr.aufV;
-            praeWirk.zu = anspr.zuV;
-        }
-        if (nImpuls.isTyGrenz1()) {
-            praeWirk.auf = PRAE_WIRK_1;
-            praeWirk.zu = -PRAE_WIRK_1;
-        }
-        if (nImpuls.isTyGrenz2()) {
-            praeWirk.auf = PRAE_WIRK_2;
-            praeWirk.zu = -PRAE_WIRK_2;
-        }
-        if (anspr.aufV > praeWirk.auf) {
-            praeWirk.auf = anspr.aufV;
-        }
-        if (anspr.zuV < praeWirk.zu) {
-            praeWirk.zu = anspr.zuV;
-        }
-        return praeWirk;
-    }
-
-    static boolean equalsAnspr(PraeWirkStruct praeWirk, AnsprStruct anspr) {
-        return praeWirk.auf == anspr.aufV || praeWirk.zu == anspr.zuV;
     }
 
 }
