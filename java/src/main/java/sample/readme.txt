@@ -71,6 +71,7 @@ FP approach with DAO/type/struct
    * make struct first parameter, named self
    * iterate on names of these functions
    * move functions as static into module of type
+   * Rename/mark const structs so I see better what is going on.
 8. recurse
    * maybe create nested structs
    * simplify calls using the nested structs

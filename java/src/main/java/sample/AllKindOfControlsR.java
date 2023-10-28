@@ -5,12 +5,12 @@ import static sample.Constants.C_IBS_OK;
 import static sample.Constants.N_AUTOMATIK;
 import static sample.Constants.N_VALVE_DIAG;
 
-class AllKindOfControls {
+class AllKindOfControlsR {
     private final int autoIbsOk;
     private final int regMode;
     private final int binSteuer;
 
-    public AllKindOfControls(int autoIbsOk, int regMode, int binSteuer) {
+    public AllKindOfControlsR(int autoIbsOk, int regMode, int binSteuer) {
         this.autoIbsOk = autoIbsOk;
         this.regMode = regMode;
         this.binSteuer = binSteuer;

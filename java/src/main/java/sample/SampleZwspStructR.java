@@ -4,26 +4,28 @@ import static sample.Constants.STROM_GRENZ;
 
 /**
  * A type aka a DTO like a Struct.
+ * This is readonly.
  */
-class SampleZwspStruct {
+class SampleZwspStructR {
 
     final int regDiff;
 
-    int aufO;
-    int zuV;
+    final int aufO;
+    final int zuV;
 
-    SampleZwspStruct(int regDiff) {
+    SampleZwspStructR(int aufO, int zuV, int regDiff) {
+        this.aufO = aufO;
+        this.zuV = zuV;
         this.regDiff = regDiff;
     }
 
     // pure functions
-    static SampleZwspStruct create(ZwspSourceStruct zwspSource, SampleStruct sample, int regDiff) {
-        SampleZwspStruct zwsp = new SampleZwspStruct(regDiff);
-        zwsp.aufO = zwspSource.ansprAufO;
-        zwsp.zuV = zwspSource.ansprZuO;
+    static SampleZwspStructR create(ZwspSourceStructR zwspSource, SampleStruct sample, int regDiff) {
+        int aufO = zwspSource.ansprAufO;
+        int zuV = zwspSource.ansprZuO;
         if (sample.zustand.isDeadzone()) {
-            zwsp.aufO = zwspSource.ansprAufO + zwspSource.ansprHyst;
-            zwsp.zuV = zwspSource.ansprZuO - zwspSource.ansprHyst;
+            aufO = zwspSource.ansprAufO + zwspSource.ansprHyst;
+            zuV = zwspSource.ansprZuO - zwspSource.ansprHyst;
 
             if (
                 ((regDiff < zwspSource.ansprZuO) && !sample.zustand.wasUp() &&
@@ -32,22 +34,22 @@ class SampleZwspStruct {
                 ((regDiff > zwspSource.ansprAufO) && !sample.zustand.wasDown() &&
                 ((zwspSource.sollwertRev - sample.istw.max) > zwspSource.ansprAufO))
             ) {
-                zwsp.aufO = zwspSource.ansprAufO + zwspSource.ansprBand;
-                zwsp.zuV = zwspSource.ansprZuO - zwspSource.ansprBand;
+                aufO = zwspSource.ansprAufO + zwspSource.ansprBand;
+                zuV = zwspSource.ansprZuO - zwspSource.ansprBand;
             }
         }
 
         if ((zwspSource.nerker1 & STROM_GRENZ) != 0) {
             if (zwspSource.wirkFall == 0) {
-                zwsp.aufO = zwsp.aufO + 37;
+                aufO = aufO + 37;
             } else {
-                zwsp.zuV = zwsp.zuV - 37;
+                zuV = zuV - 37;
             }
         }
-        return zwsp;
+        return new SampleZwspStructR(aufO, zuV, regDiff);
     }
 
-    static boolean isAroundRegDiff(SampleZwspStruct zwsp) {
+    static boolean isAroundRegDiff(SampleZwspStructR zwsp) {
         return (zwsp.regDiff >= zwsp.zuV) && (zwsp.regDiff <= zwsp.aufO);
     }
 }
