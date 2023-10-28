@@ -2,6 +2,7 @@ package sample;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static sample.Constants.*;
 
 import org.junit.jupiter.api.Test;
@@ -129,8 +130,7 @@ class SampleTest {
     }
 
     private void assertTotalState(String received) throws IOException {
-        // String prefix = "src/test/java/sample/totalState.";
-        String prefix = "target/totalState.";
+        String prefix = "src/test/java/sample/totalState.";
         String suffix = ".txt";
         Path receivedFile = Paths.get(prefix + "received" + suffix);
 
